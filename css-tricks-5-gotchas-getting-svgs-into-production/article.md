@@ -116,7 +116,7 @@ You should be mindful to ensure that any event handling (like a JavaScript `clic
 
 ## Gotcha Four: Github Diffs
 
-Once concern we had was that the SVG diffs are pretty archaic to a potential code reviewer. Chris Coyier pointed out to me that github has recently deployed a sweet [svg viewing feature](https://github.com/blog/1902-svg-viewing-diffing) which allows you to toggle a view of the *blob*. Very handy.
+One concern we had was that the SVG diffs are pretty archaic to a potential code reviewer. Chris Coyier pointed out to me that github has recently deployed a sweet [svg viewing feature](https://github.com/blog/1902-svg-viewing-diffing) which allows you to toggle a view of the *blob*. Very handy.
 
 ## Gotcha Five: Working With A Designer
 
