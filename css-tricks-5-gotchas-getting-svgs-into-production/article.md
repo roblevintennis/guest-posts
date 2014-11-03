@@ -24,7 +24,11 @@ Will get replaced with an *embedded element* that looks something like this:
 <svg viewBox="0 0 16 16"><path> … </path></svg>
 ```
 
+### CSS: Hitting the Target
+
 Depending on the source SVG, you might end up with a hierarchy looking like: `svg path` (as above), or, it might be `svg g`, or possibly a combination of grouped and path descendants–but do remember, you'll need your CSS to target the &ldquo;pollyfilled&rdquo; cases–this means you're CSS rules should absolutely never target the `svg > use` element directly…it will get completely removed in IE!
+
+### JavaScript: Hitting the Target
 
 The same idea holds true for any JavaScript manipulations on the SVG clone itself. For example, we may want to [swap icons](http://css-tricks.com/swapping-svg-icons/) on a hover and–one technique we may choose–is to alter the `xlink:href` attribute with JavaScript when such an event fires. Since, in this article, we've elected to use an external file with the above described shim, we can't reliably use that technique (again, the `use` element gets replaced in IE). My recommendation is to just hide/show via CSS classes (Technique #1 described in [Swapping Out SVG Icons](http://css-tricks.com/swapping-svg-icons/) article), and be sure to target the SVG clone itself.
 
