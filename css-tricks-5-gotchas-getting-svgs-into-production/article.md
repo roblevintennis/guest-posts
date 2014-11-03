@@ -57,11 +57,7 @@ Now here's where the magic starts to happen–our `fill` defines the icon's gene
 <path fill="currentColor" … />
 ```
 
-
-
-**TODO: Replace file path to image!!!**
-![Preview of SVG icons](file:///Users/roblevin/workspace/labs/svg-ftw/current-color-example.png "Example of using `currentColor` to achieve an accent color on an SVG path")
-
+![Preview of SVG icons](./images/current-color-example.png "Example of using `currentColor` to achieve an accent color on an SVG path")
 
 In my testing, I found that IE9-11 have an issue that the `fill` that's defined on the `svg` itself, will take precedence over the inline `currentColor` that inherits from the font color. One workaround (ok, hack) that worked for me was to reapply it like:
 
@@ -168,8 +164,7 @@ With these commands we:
 
 Depending on your set up, the last step should result in opening up the following page in your system's default browser (if not, visit http://localhost:8000 manually):
 
-**TODO: Replace file path to image!!!**
-![Preview of SVG icons](file:///Users/roblevin/workspace/labs/svg-ftw/two-instances.png "Preview of SVG icons–notice we have two instances pointing to same SVG def yet with different accent colors")
+![Preview of SVG icons](./images/two-instances.png "Preview of SVG icons–notice we have two instances pointing to same SVG def yet with different accent colors")
 
 If you'd like to reverse engineer this set up in order to inform your own project's setup, the files you'll want to reference are:
 
