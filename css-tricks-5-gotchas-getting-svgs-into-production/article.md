@@ -166,7 +166,7 @@ With these commands we:
 * Install SVG builder node dependencies
 * Run our Grunt development workflow which builds the example's inline SVG definitions and also build the example page
 
-Depending on your set up, the last step should result in opening up the following page in your system's default browser (if not, visit http://localhost:8000 manually):
+Depending on your set up, the last step should result in opening up the following page in your system's default browser (if not, visit [http://localhost:8000](http://localhost:8000) manually):
 
 ![Preview of SVG icons](./images/two-instances.png "Preview of SVG icons–notice we have two instances pointing to same SVG def yet with different accent colors")
 
