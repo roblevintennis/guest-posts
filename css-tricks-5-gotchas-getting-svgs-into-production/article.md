@@ -8,9 +8,9 @@ This was me just a couple months ago, and here are some &ldquo;gotchas&rdquo; I 
 
 *Please note that this is not a persuasive article on why you should use inline SVG. For that, you should read this [popular css-tricks article](http://css-tricks.com/icon-fonts-vs-svg/) that points out the advantages of inline svg over icon fonts.*
 
-## Gotcha One: Caching in IE
+## Gotcha One: Missing the Target
 
-In order to achieve caching using an external SVG file (you seriously don't want to dump `~1.5kb * 50` icons on your page in a non-cacheable way right?!), you need to include the [svg4everybody](https://github.com/jonathantneal/svg4everybody) library on your page. Essentially, this shim will use UA sniffing to detect if you're running a [&ldquo;problemattic version&rdquo;](https://github.com/jonathantneal/svg4everybody/blob/master/svg4everybody.js#L83) of IE or Android that doesn't properly cache external definitions files, and, if so, removes all `svg use` elements, and replaces them with embedded elements containing the corresponding SVG definition data pulled in via ajax. At the end of the day, we just care about the fact that our original SVG that might have looked like:
+In order to achieve caching using an external SVG file (you seriously don't want to dump `~1.5kb * 50` icons on your page in a non-cacheable way right?!), you need to include the [svg4everybody](https://github.com/jonathantneal/svg4everybody) library on your page. Essentially, this shiv will use UA sniffing to detect if you're running a [&ldquo;problemattic version&rdquo;](https://github.com/jonathantneal/svg4everybody/blob/master/svg4everybody.js#L83) of IE or Android that doesn't properly cache external definitions files, and, if so, removes all `svg use` elements, and replaces them with embedded elements containing the corresponding SVG definition data pulled in via ajax. At the end of the day, we just care about the fact that our original SVG that might have looked like:
 
 ```html
 <svg>
