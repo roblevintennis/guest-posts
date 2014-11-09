@@ -34,7 +34,50 @@ The same idea holds true for any JavaScript manipulations on the SVG clone itsel
 
 *If we're directly dropping in the inline SVG definition at the top of our page (ex. right after the opening `<body>` tag), we won't have this concern and using the technique of manipulating the `xlink:href` attribute is fine.*
 
-## Gotcha Two: Achieving Color Variation
+### Selector Examples
+
+Just to make the above points crystal clear, here's a CSS selector that would work in browsers that fully support external SVG definitions but fail in IE:
+
+```css
+.my-svg use {
+	fill: red;}
+```
+It turns out there's no real need or gain to target `use`, so just change that to:
+```css
+.my-svg {
+	fill: red;}
+```
+While we're talking about selectors, we should take this opportunity to point out you won't be able to &ldquo;reach in&rdquo; to original SVG definition with something like:
+```css
+svg.parent path.child { /* won't work! */ }
+```
+The same would apply to trying to style anything in the def itself be it a shape, path, group, etc. It may be obvious, but this is only an issue, here, because we're using the `use xlink:href` strategy.
+
+## Gotcha Two: Working With A Designer
+
+If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke.
+
+The opposite is also true, if what you're after is more of a *bordered outline* effect. In this case, the designer simply inverts the process, applying a stroke with no fill to the vector art. You'd style such an SVG with CSS like:
+
+```css
+.icon-bordered {
+  stroke:  #ddd;
+  stroke-width: 1px;
+  fill: transparent;
+}
+```
+
+The take away is that the fill/stroke approach taken, needs to be consistent between the vector art and the CSS applied.
+
+TODO: Image example of solid filled vs. outlined
+
+
+
+
+
+
+
+## Gotcha Three: Achieving Color Variation
 
 One of the purported benefits of using SVG, in general, is the flexible style control we get since we can apply CSS to an SVG's *path*, *shape*, etc. However, using the `use xlink:href` mechanism results in a [non-exposed cloned DOM tree](http://www.w3.org/TR/SVG/struct.html#UseElement), for which our `fill` or `stroke` styles will apply to the referenced SVG *globally*. The implications of this, is that all cloned instances will share the same fill color.
 
@@ -102,37 +145,25 @@ And I call it with something like:
 ```
 If you're wondering about the `$patchCurrentColorForIE` parameter, I have that there for icons that won't require multiple colors, and thus don't need the shim applied.
 
-## Gotcha Three: jQuery Throws Error
+## Gotcha Four: jQuery Throws Error
 
 If you've included jQuery on your page, clicking directly on a rendered `svg use` element will likely result in jQuery throwing an error that's documented in their [bug tracker](http://bugs.jquery.com/ticket/11352). It’s actually a bit tricky to reproduce this bug since you’ll likely have a containing block element that serves as an anchor or button–and that element will have the larger hit area–but, again, it happens if you click directly on the icon itself. Here's the preferred workaround:
 
 ```css
-svg use { pointer-events: none;}
+svg { pointer-events: none;}
 ```
 
-You should be mindful to ensure that any event handling (like a JavaScript `click` handler for example), is handled by an ancestor element and not the non-exposed SVG clone itself. This style rule won't have any affect in cases where the [svg4everybody](https://github.com/jonathantneal/svg4everybody) library pollyfills your SVG (IE9-11 and Android <2.3), since, as you recall, the whole `use` element gets replaced in that case anyway.
+Since `pointer-events` are *inherited*, this will cause any of the SVG &ldquo;sub-elements&rdquo; to also not respond to `pointer-events`. Once you've set this up, you should be mindful to ensure that any event handling (like a JavaScript `click` handler for example), is handled by an ancestor element and not the non-exposed SVG clone itself–a button or anchor are obvious examples of wrapper elements that would need to do the event handling in this case.
 
-*If you do intend to handle mouse or pointer events on the SVG itself, you should probably consider using an `img` or a CSS `background` tag for that particular SVG; doing so will make this a non-issue.*
+*If you do intend to handle mouse or pointer events on the SVG itself for animations or the like, you should probably consider just using an `img` or a CSS `background` tag for that particular SVG; doing so will make this a non-issue.*
 
-## Gotcha Four: GitHub Diffs
+## Gotcha Five: GitHub Diffs
 
 One concern we had was that the SVG diffs are pretty archaic to a potential code reviewer. Chris Coyier pointed out to me that GitHub has recently deployed a sweet [svg viewing feature](https://github.com/blog/1902-svg-viewing-diffing) which allows you to toggle a view of the *blob*. Very handy.
 
-## Gotcha Five: Working With A Designer
+![GitHub Supports SVG Diffs!](./images/svg-diff-animation.gif "GitHub Supports SVG Diffs!")
 
-If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke.
-
-The opposite is also true, if what you're after is more of a *bordered outline* effect. In this case, the designer simply inverts the process, applying a stroke with no fill to the vector art. You'd style such an SVG with CSS like:
-
-```css
-.icon-bordered {
-  stroke:  #ddd;
-  stroke-width: 1px;
-  fill: transparent;
-}
-```
-
-The take away is that the fill/stroke approach taken, needs to be consistent between the vector art and the CSS applied.
+Additionally, a team-wide policy to keep such SVG work in a separate commits (so it doesn't *muddy* more meaningful code changes) is probably the pragmattic choice here.
 
 ##A Working Example
 
