@@ -266,4 +266,4 @@ If you'd like to reverse engineer this set up in order to inform your own projec
 
 ## Conclusions
 
-Having successfully addressed the above challenges, I'd assert that teams building modern web applications should definitely consider using inline SVG right now. [Unicorn-UI](http://unicorn-ui.com) is gearing up to implement an &ldquo;interactive playground&rdquo; for our recently released [Buttons 2.0 Beta](https://github.com/alexwolfe/Buttons), and, for obvious reasons, we'll definitely be utilizing inline SVG for that project…perhaps you should consider it for your next project too.
+Having successfully addressed the above challenges, I'd assert that teams building modern web applications should definitely consider using inline SVG right now. [Unicorn-UI](http://unicorn-ui.com) is gearing up to implement an &ldquo;interactive playground&rdquo; for our recently released [Buttons 2.0 Beta](http://unicorn-ui.com/buttons), and, for obvious reasons, we'll definitely be utilizing inline SVG for that project…perhaps you should consider it for your next project too.
