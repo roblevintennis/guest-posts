@@ -51,7 +51,7 @@ While we're talking about selectors, we should take this opportunity to point ou
 ```css
 svg.parent path.child { /* won't work! */ }
 ```
-The same would apply to trying to style anything in the def itself be it a shape, path, group, etc. It may be obvious, but this is only an issue, here, because we're using the `use xlink:href` strategy.
+The same would apply to trying to style anything in the def itself via the cloned instance be it a shape, path, group, etc. It may be obvious, but this is only an issue, here, because we're using the `use xlink:href` strategy.
 
 ## Gotcha Two: Working With A Designer
 
