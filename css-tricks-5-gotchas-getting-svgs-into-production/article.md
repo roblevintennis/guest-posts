@@ -89,7 +89,7 @@ You'd probably think it's best to just use fills on the source SVG, but let's at
 
 ### Exporting Stroke On / Fill Off
 
-![Creating SVG With Stroke Only](./images/stroke-onlye-export.png "Creating SVG With Stroke Only")
+![Creating SVG With Stroke Only](./images/stroke-only-export.png "Creating SVG With Stroke Only")
 
 So the bad news is that the instance pointing to the stroke only SVG, is no longer styleable directly like:
 
