@@ -121,8 +121,7 @@ You can also just add classes within the source SVG and apply CSS to those direc
   stroke-width: 7px;
 }
 ```
-Maybe I'm showing my age, but I just can't help but think of [Clarence Carter](https://www.youtube.com/watch?v=P7gMkiOPSeA) with all this talk of &ldquo;strokin&rdquo;
-
+Maybe I'm showing my age, but I just can't help but think of [Clarence Carter](http://en.wikipedia.org/wiki/Clarence_Carter) with all this talk of [&ldquo;strokin&rdquo;](https://www.youtube.com/watch?v=P7gMkiOPSeA)
 
 <p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
