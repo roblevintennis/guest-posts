@@ -113,7 +113,7 @@ You can also just add classes within the source SVG and apply CSS to those direc
 
 ```css
 .ibestrokin {
-  stroke: hotpink;
+  stroke: magenta;
   stroke-width: 5px;
 }
 .istrokeittotheeast {
