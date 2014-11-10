@@ -36,13 +36,13 @@ The same idea holds true for any JavaScript manipulations on the SVG clone itsel
 
 ### Selector Examples
 
-Just to make the above points crystal clear, here's a CSS selector that would work in browsers that fully support external SVG definitions but fail in IE:
+Just to make the above points crystal clear, here's a CSS selector that would work in browsers that fully support external SVG definitions but fails when [svg4everybody](https://github.com/jonathantneal/svg4everybody) pollyfills IE:
 
 ```css
 .my-svg use {
 	fill: red;}
 ```
-It turns out there's no real need or gain to target `use`, so just change that to:
+It turns out there's no real need or gain to target `use`, so just change that to the following to work for all cases:
 ```css
 .my-svg {
 	fill: red;}
