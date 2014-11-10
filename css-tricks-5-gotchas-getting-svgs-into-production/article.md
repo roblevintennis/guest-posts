@@ -55,40 +55,56 @@ The same would apply to trying to style anything in the def itself be it a shape
 
 ## Gotcha Two: Working With A Designer
 
-If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke. In fact, even if you do want to apply a stroke to the SVG instance, it's probably easiest to do this if the source SVG was created with strokes turned off (fill only) in the vector application at creation time, since you'll be able to a stroke from CSS anyway. An example explains best…
+If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke. In fact, even if you do want to apply a stroke to the SVG instance, it's probably easiest to do this if the source SVG was created with strokes turned off (fill only) in the vector application at creation time, since you'll be able to a stroke from CSS anyway. In my testing, I found the following…
 
-<p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
-
+### Exporting Fill On / Stroke Off
 
 
-//Point 1. stroked instance is no longer styleable from instance
-.stroked-instance {
-  stroke: green;//nothing happens
-  fill: red;//nada
-}
+If you're source SVG was exported with fills only (no strokes), then you still have the best of both worlds since you can still apply a stroke via the CSS (actually I'm using Sass syntax in this example):
 
-//Point 2. but is from filled instance. Also, we can still apply a stroke
+```css
 .filled-instance {
   stroke: #cc8ac1;
   stroke-width: 5px;
   fill: lighten(#cc8ac1, 20%);
 }
+```
 
-//Point 3. You can always achieve an outlined effect by simply "turning off" the fill
+Also, you can achieve an outlined affect by simply turning off the fill via CSS:
+
+```css
 .filled-instance-off {
   stroke: #d08aaf;
   stroke-width: 5px;
   fill: transparent;
 }
+```
 
-//Point 4. If you want to apply stroke via CSS to the SVG exported with stroke and no fill, you have to target the shapes/paths within the source SVG in the defintion
+You'd probably think it's best to just use fills on the source SVG, but let's at least take a look at doing it the other way around (stroke only).
+
+### Exporting Stroke On / Fill Off
+
+So the bad news is that the instance pointing to the stroke only SVG, is no longer styleable directly like:
+
+```css
+.stroked-instance {
+  stroke: green;//nothing happens
+  fill: red;//nothing happens
+}
+```
+You have to &ldquo;reach-in&rdquo; to the SVG with something like the following:
+
+```css
 symbol#completed-copy-stroked [stroke] {
   stroke: #dd6435;
   stroke-width: 5px;
 }
+```
+*Note that the `symbol` part of the selector above is unnecessary but used here for clarity as to what element we're targetting*
 
-//Point 5. You can also just add classes within the source SVG and apply CSS to those directly.
+You can also just add classes within the source SVG and apply CSS to those directly. This works regardless of whether you exported the SVG with fills only or strokes only. Because you're hand adding a CSS class, it's there for you to hook into (albeit directly–we're targetting that particular SVG sub-element directly and not through an instance):
+
+```css
 .ibestrokin {
   stroke: hotpink;
   stroke-width: 5px;
@@ -97,6 +113,19 @@ symbol#completed-copy-stroked [stroke] {
   stroke: green;
   stroke-width: 7px;
 }
+```
+Maybe I'm showing my age, but I just can't help but think of [Clarence Carter](https://www.youtube.com/watch?v=P7gMkiOPSeA) with all this talk of &ldquo;strokin&rdquo;
+
+
+
+
+
+
+
+
+<p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
 
 
 
