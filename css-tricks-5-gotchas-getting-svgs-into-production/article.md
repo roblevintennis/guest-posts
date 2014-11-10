@@ -55,7 +55,56 @@ The same would apply to trying to style anything in the def itself be it a shape
 
 ## Gotcha Two: Working With A Designer
 
-If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke.
+If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke. In fact, even if you do want to apply a stroke to the SVG instance, it's probably easiest to do this if the source SVG was created with strokes turned off (fill only) in the vector application at creation time, since you'll be able to a stroke from CSS anyway. An example explains best…
+
+<p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+
+
+//Point 1. stroked instance is no longer styleable from instance
+.stroked-instance {
+  stroke: green;//nothing happens
+  fill: red;//nada
+}
+
+//Point 2. but is from filled instance. Also, we can still apply a stroke
+.filled-instance {
+  stroke: #cc8ac1;
+  stroke-width: 5px;
+  fill: lighten(#cc8ac1, 20%);
+}
+
+//Point 3. You can always achieve an outlined effect by simply "turning off" the fill
+.filled-instance-off {
+  stroke: #d08aaf;
+  stroke-width: 5px;
+  fill: transparent;
+}
+
+//Point 4. If you want to apply stroke via CSS to the SVG exported with stroke and no fill, you have to target the shapes/paths within the source SVG in the defintion
+symbol#completed-copy-stroked [stroke] {
+  stroke: #dd6435;
+  stroke-width: 5px;
+}
+
+//Point 5. You can also just add classes within the source SVG and apply CSS to those directly.
+.ibestrokin {
+  stroke: hotpink;
+  stroke-width: 5px;
+}
+.istrokeittotheeast {
+  stroke: green;
+  stroke-width: 7px;
+}
+
+
+
+
+
+
+
+
 
 The opposite is also true, if what you're after is more of a *bordered outline* effect. In this case, the designer simply inverts the process, applying a stroke with no fill to the vector art. You'd style such an SVG with CSS like:
 
