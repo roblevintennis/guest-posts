@@ -72,11 +72,6 @@ The take away is that the fill/stroke approach taken, needs to be consistent bet
 TODO: Image example of solid filled vs. outlined
 
 
-
-
-
-
-
 ## Gotcha Three: Achieving Color Variation
 
 One of the purported benefits of using SVG, in general, is the flexible style control we get since we can apply CSS to an SVG's *path*, *shape*, etc. However, using the `use xlink:href` mechanism results in a [non-exposed cloned DOM tree](http://www.w3.org/TR/SVG/struct.html#UseElement), for which our `fill` or `stroke` styles will apply to the referenced SVG *globally*. The implications of this, is that all cloned instances will share the same fill color.
@@ -145,6 +140,12 @@ And I call it with something like:
 ```
 If you're wondering about the `$patchCurrentColorForIE` parameter, I have that there for icons that won't require multiple colors, and thus don't need the shim applied.
 
+### Other Color Variation Techniques
+
+In addition to using the `currentColor` technique listed above, you can also use a `preserve--` attribute feature [now available in grunt-svgstore](https://github.com/FWeinb/grunt-svgstore#supplemental-features). How it works, is if you use `preserve--` as a prefix to any valid attribute in the source SVG, that attribute will be forced to remain in the resulting SVG (with the `preserve--` prefix removed). For example, `preserve--stroke` would result in just `stroke` in the outputed SVG definition.
+
+Another technique to consider, if you're wondering how to achieve color variation–in this case for a `background-image`–is to take the approach of using a `data-uri` of an SVG, but first do a search and replace on the `fill` value as [described here](http://zslabs.com/articles/svg-background-fill). However, that approach is a bit out of scope and off-topic for this article, since it means using a non-cachable `data-uri` going against our primary goal to employ a cachable external SVG definitions file.
+
 ## Gotcha Four: jQuery Throws Error
 
 If you've included jQuery on your page, clicking directly on a rendered `svg use` element will likely result in jQuery throwing an error that's documented in their [bug tracker](http://bugs.jquery.com/ticket/11352). It’s actually a bit tricky to reproduce this bug since you’ll likely have a containing block element that serves as an anchor or button–and that element will have the larger hit area–but, again, it happens if you click directly on the icon itself. Here's the preferred workaround:
@@ -167,10 +168,11 @@ Additionally, a team-wide policy to keep such SVG work in a separate commits (so
 
 ##A Working Example
 
-I've set up a &ldquo;toy example&rdquo; that you'll hopefully find helpful. It implements inline SVG using a [Grunt](http://gruntjs.com/) workflow, and relies on a cacheable external SVG definitions file. Note that this example does require IE9 and above. If you need to support IE8 and below, you can fallback to a png image of the same name as your SVG (but with the .png extension). Setting this up is described in the instructions for the [svg4everybody](https://github.com/jonathantneal/svg4everybody) library we're already using so start there.
+I've set up a &ldquo;toy example&rdquo; that you'll hopefully find helpful. It implements inline SVG using a [Grunt](http://gruntjs.com/) workflow, and relies on a cacheable external SVG definitions file. Note that this example does require IE9 and above.
 
-**TODO: Note to Chris. I'd propose we have an example posted on the css-tricks/example site somewhere similar to: [svg demo](http://developtodesign.com/test-case2/), since some folks will just want to see a demo.**
+*If you're not yet ready to set this up, [here's a demo page](http://unicorn-ui.com/buttons/svg-demo/) of what we'll be deploying.*
 
+If you need to support IE8 and below, you can fallback to a png image of the same name as your SVG (but with the .png extension). Setting this up is described in the instructions for the [svg4everybody](https://github.com/jonathantneal/svg4everybody) library we're already using so start there.
 
 To run the example you'll need the following installed:
 
