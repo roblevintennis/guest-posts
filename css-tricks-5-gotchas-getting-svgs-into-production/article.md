@@ -62,7 +62,7 @@ If your icons generally use only one color, applying the CSS styling in &ldquo;o
 
 If you're source SVG was exported with fills only (no strokes), then you still have the best of both worlds since you can still apply a stroke via the CSS. 
 
-![Creating SVG With Fill Only](./images/fill-only-export.png "Creating SVG With Fill Only")
+![Creating SVG With Fill Only](./images/fill-only-export-smaller.png "Creating SVG With Fill Only")
 
 
 In this first example (I'm using Sass syntax), we use both a fill and stroke:
@@ -89,7 +89,7 @@ You'd probably think it's best to just use fills on the source SVG, but let's at
 
 ### Exporting Stroke On / Fill Off
 
-![Creating SVG With Stroke Only](./images/stroke-only-export.png "Creating SVG With Stroke Only")
+![Creating SVG With Stroke Only](./images/stroke-only-export-smaller.png "Creating SVG With Stroke Only")
 
 So the bad news is that the instance pointing to the stroke only SVG, is no longer styleable directly like:
 
