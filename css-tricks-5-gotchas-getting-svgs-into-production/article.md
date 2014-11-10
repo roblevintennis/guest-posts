@@ -117,38 +117,8 @@ You can also just add classes within the source SVG and apply CSS to those direc
 Maybe I'm showing my age, but I just can't help but think of [Clarence Carter](https://www.youtube.com/watch?v=P7gMkiOPSeA) with all this talk of &ldquo;strokin&rdquo;
 
 
-
-
-
-
-
-
 <p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
-
-
-
-
-
-
-
-
-
-
-The opposite is also true, if what you're after is more of a *bordered outline* effect. In this case, the designer simply inverts the process, applying a stroke with no fill to the vector art. You'd style such an SVG with CSS like:
-
-```css
-.icon-bordered {
-  stroke:  #ddd;
-  stroke-width: 1px;
-  fill: transparent;
-}
-```
-
-The take away is that the fill/stroke approach taken, needs to be consistent between the vector art and the CSS applied.
-
-TODO: Image example of solid filled vs. outlined
-
 
 ## Gotcha Three: Achieving Color Variation
 
