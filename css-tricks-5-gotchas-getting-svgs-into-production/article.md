@@ -60,7 +60,7 @@ If your icons generally use only one color, applying the CSS styling in &ldquo;o
 ### Exporting Fill On / Stroke Off
 
 
-If you're source SVG was exported with fills only (no strokes), then you still have the best of both worlds since you can still apply a stroke via the CSS (actually I'm using Sass syntax in this example):
+If you're source SVG was exported with fills only (no strokes), then you still have the best of both worlds since you can still apply a stroke via the CSS. In this first example (I'm using Sass syntax), we use both a fill and stroke:
 
 ```css
 .filled-instance {
