@@ -91,7 +91,7 @@ You'd probably think it's best to just use fills on the source SVG, but let's at
 
 ![Creating SVG With Stroke Only](./images/stroke-only-export-smaller.png "Creating SVG With Stroke Only")
 
-So the bad news is that the instance pointing to the stroke only SVG, is no longer styleable directly like:
+So the bad news is that you cannot apply a style to the stroke on the cloned instance (which, in turn, points to the "stroke only" SVG):
 
 ```css
 .stroked-instance {
@@ -99,7 +99,7 @@ So the bad news is that the instance pointing to the stroke only SVG, is no long
   fill: red;//nothing happens
 }
 ```
-You have to &ldquo;reach-in&rdquo; to the SVG with something like the following:
+Instead, you'll have to style the SVG symbol directly:
 
 ```css
 symbol#completed-copy-stroked [stroke] {
