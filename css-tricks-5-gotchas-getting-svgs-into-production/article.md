@@ -55,17 +55,36 @@ The same would apply to trying to style anything in the def itself via the clone
 
 ## Gotcha Two: Working With A Designer
 
-If your icons generally use only one color, applying the CSS styling in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a fill with no stroke. In fact, even if you do want to apply a stroke to the SVG instance, it's probably easiest to do this if the source SVG was created with strokes turned off (fill only) in the vector application at creation time, since you'll be able to a stroke from CSS anyway. In my testing, I found the following…
+If your icons generally use only one color, applying the CSS styling to the cloned instance in &ldquo;one sweep&rdquo; is trivial with: `fill: <your-color>`. For such cases, the designer on the project will need to be mindful to create the vector art applying only a black fill with no stroke, or, only apply path data (no fill or stroke). In fact, even if you do want to apply a stroke to the cloned SVG instance, it's probably easiest to do this if the source SVG was created with strokes turned off, since you'll be able to apply CSS to the cloned instance to add a stroke anyway. To understand why this is, let's discuss some of the specifics of how Adobe Illustrator currently exports SVG.
 
-### Exporting Fill On / Stroke Off
+### Illustrator SVG Export Behavior
+
+If you're using another vector program like [Inkscape](https://inkscape.org/en/) or [Sketch](http://bohemiancoding.com/sketch/), etc., you'll have to refer to that software's documentation to see if their behavior matches, but, at time of writing, my Illustrator CC exports to SVG as follows:
+
+* If you don't define a fill or stroke, or, you define only a fill, but that fill is *black* (completely black as in `#000`), the exported SVG paths and shapes will *not* contain a fill or stroke attribute:
+
+```html
+<path …<positional information… >
+<rect …<positional information… >
+```
+
+* If you define a non-black fill, or, if you define a stroke (of any color including *black*), the exported SVG's corresponding paths and shapes *will* contain stroke and/or fill attributes like:
+
+```html
+<path stroke="#000000" stroke-width="5" stroke-miterlimit="10" … >
+<rect fill="fabdad" … >
+```
+
+These presentational attributes will always be overriden by CSS when you style the SVG symbol, path, shape, etc., **directly**. Any caveats involved with applying CSS to a *cloned instance* are described next.
 
 
-If you're source SVG was exported with fills only (no strokes), then you still have the best of both worlds since you can still apply a stroke via the CSS. 
+### Exporting Black Fill On / Stroke Transparent
+
+If you're source SVG was exported with black fills only (no strokes), then you still have the best of both worlds since you can still apply a stroke via the CSS. 
 
 ![Creating SVG With Fill Only](./images/fill-only-export-smaller.png "Creating SVG With Fill Only")
 
-
-In this first example (I'm using Sass syntax), we use both a fill and stroke:
+In this first example (note I'm using Sass syntax), we apply a CSS fill and stroke to the cloned instance:
 
 ```css
 .filled-instance {
@@ -85,13 +104,11 @@ Also, you can achieve an outlined affect by simply turning off the fill via CSS:
 }
 ```
 
-You'd probably think it's best to just use fills on the source SVG, but let's at least take a look at doing it the other way around (stroke only).
-
-### Exporting Stroke On / Fill Off
+### Exporting Stroke On / Fill Transparent
 
 ![Creating SVG With Stroke Only](./images/stroke-only-export-smaller.png "Creating SVG With Stroke Only")
 
-So the bad news is that you cannot apply a style to the stroke on the cloned instance (which, in turn, points to the "stroke only" SVG):
+So the bad news here, is that you cannot apply a style to the stroke on the cloned instance (remember, our cloned instance, in turn, points to the "stroke only" SVG definition):
 
 ```css
 .stroked-instance {
@@ -99,7 +116,7 @@ So the bad news is that you cannot apply a style to the stroke on the cloned ins
   fill: red;//nothing happens
 }
 ```
-Instead, you'll have to style the SVG symbol directly:
+Instead, you'd have to style the SVG symbol directly:
 
 ```css
 symbol#completed-copy-stroked [stroke] {
@@ -109,7 +126,7 @@ symbol#completed-copy-stroked [stroke] {
 ```
 *Note that the `symbol` part of the selector above is unnecessary but used here for clarity as to what element we're targetting*
 
-You can also just add classes within the source SVG and apply CSS to those directly. This works regardless of whether you exported the SVG with fills only or strokes only. Because you're hand adding a CSS class, it's there for you to hook into (albeit directly–we're targetting that particular SVG sub-element directly and not through an instance):
+You can also just add classes within the source SVG and apply CSS to those directly. This works regardless of whether you exported the SVG with only black fills, strokes only, etc. Because you're hand adding a CSS class, it's there for you to hook into (albeit directly–we're targetting that particular SVG sub-element directly and not styling through a cloned instance):
 
 ```css
 .ibestrokin {
@@ -125,6 +142,12 @@ Maybe I'm showing my age, but I just can't help but think of [Clarence Carter](h
 
 <p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+To my mind, only being able to style the SVG directly (and not the cloned instance), is less than ideal. Therefore, my recommendation would be to avoid exporting strokes alltogether when you're going to be using inline SVG and cloned instances unless you have a really good reason to do so. If you already have artwork that has strokes defined, you can always convert those to paths via something like *Outline Stroke*.
+
+Another consideration, is If you're using a post-processing library such as [grunt-svgstore](https://github.com/FWeinb/grunt-svgstore) to cleanup fills and strokes. In this case, your resulting SVG may not have explicit fill or stroke attributes and only path information left in the definition file that gets created. In this case, you definitely want to convert any strokes to paths or risk losing those visible lines alltogether.
+
+So the takeaway is that you'll need to make a decision with the designer, as to whether you want all fills and strokes to be completely controlled via CSS–in which case you should just use paths with transparent fills and strokes (or black fills if you'd like them kept around for reference)–or, does it make more sense to start with sensible defaults, and then use CSS to override these as needed. If you're using inline SVG and plan to style to cloned instances (not directly to the SVG), my recommendation is to just use paths.
 
 ## Gotcha Three: Achieving Color Variation
 
