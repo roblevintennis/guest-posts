@@ -43,14 +43,17 @@ Just to make the above points crystal clear, here's a CSS selector that would wo
 	fill: red;}
 ```
 It turns out there's no real need or gain to target `use`, so just change that to the following to work for all cases:
+
 ```css
 .my-svg {
 	fill: red;}
 ```
 While we're talking about selectors, we should take this opportunity to point out you won't be able to &ldquo;reach in&rdquo; to original SVG definition with something like:
+
 ```css
 svg.parent path.child { /* won't work! */ }
 ```
+
 The same would apply to trying to style anything in the def itself via the cloned instance be it a shape, path, group, etc. It may be obvious, but this is only an issue, here, because we're using the `use xlink:href` strategy.
 
 ## Gotcha Two: Working With A Designer
@@ -135,9 +138,7 @@ symbol#completed-copy-stroked [stroke] {
 
 Again, this isn't really ideal if you're using an inline SVG with cloned instances approach, since we'd prefer to apply styles to our clone instances where possible. 
 
-Another technique you can always use, is to just add classes within the source SVG and apply CSS to those directly. These styles will be *global* which may or may not be a problem–you'll have to decide that for your case.
-
-This technique works regardless of how you exported the SVG. Because you're hand adding a CSS class, it's there for you to hook into (albeit directly–we're targetting the SVG definition's sub-element directly and not styling through a cloned instance):
+Another technique you can always use, is to just add classes within the source SVG and apply CSS to those directly. These styles will be *global* which may or may not be a problem–you'll have to decide that for your case. This technique works regardless of how you exported the SVG. Because you're hand adding a CSS class, it's there for you to hook into (albeit directly–we're targetting the SVG definition's sub-element directly and not styling through a cloned instance):
 
 ```css
 .ibestrokin {
