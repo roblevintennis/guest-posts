@@ -112,7 +112,7 @@ The reason that this works so beautifully, is that our SVG definition doesn't ha
 
 ![Creating SVG With Stroke Only](./images/stroke-only-export-smaller.png "Creating SVG With Stroke Only")
 
-So the bad news here, is that you cannot apply a style to the stroke on the cloned instance (remember, our cloned instance, in this example, in turn, points to an SVG def that we created with "stroke only"). We can't apply a fill to our cloned instance either, since our SVG definition now has `fill="none"` and that will take precendence):
+So the bad news here, is that you cannot apply a style to the stroke on the cloned instance (remember, our cloned instance, in this example, in turn, points to an SVG def that we created with "stroke only"). We can't apply a fill to our cloned instance either, since our SVG definition now has `fill="none"` and that will take precedence):
 
 ```css
 .stroked-instance {
