@@ -195,32 +195,17 @@ Now here's where the magic starts to happen–our `fill` defines the icon's gene
 
 ![Preview of SVG icons](./images/current-color-example.png "Example of using `currentColor` to achieve an accent color on an SVG path")
 
-In my testing, I found that IE9-11 have an issue that the `fill` that's defined on the `svg` itself, will take precedence over the inline `currentColor` that inherits from the font color. One workaround (ok, hack) that worked for me was to reapply it like:
-
-```css
-.icon-primary * [fill='currentColor'] {
-  fill: currentColor;
-}
-```
-
-This will take any sub-tree descendant of the `icon-primary` SVG and, if it has a the exact attribute `fill='currentColor'`, will override the `fill` definition. If you have a cleaner, tested way of achieving this, please do leave a comment.
-
 If you're using [grunt-svgstore](https://github.com/FWeinb/grunt-svgstore) in your build process (the example at the end of this article does), you'll likely configure it to remove unwanted cruft via the `cleanup` property, and this library now [preserves fill attributes with the value `currentColor`](https://github.com/FWeinb/grunt-svgstore/commit/c9f2e08cac9159ac9a936cce5dc467eac9443f04#diff-04c6e90faac2675aa89e2176d2eec7d8R194)…so you don't have to worry about clobbering the custom attribute defined above. 
 
-I've created a Sass mixin (purposely compatible down to 3.2) for doing this:
+I've created a small Sass mixin (purposely compatible down to 3.2) for doing setting this up:
 
 ```sass
-@mixin svgColors($fill: false, $color: false, $patchCurrentColorForIE: false) {
+@mixin svgColors($fill: false, $color: false) {
   @if $fill {
     fill: $fill;
   }
   @if $color {
     color: $color;
-  }
-  @if $patchCurrentColorForIE {
-    * [fill='currentColor'] {
-      fill: currentColor;
-    }
   }
 }
 ```
@@ -229,10 +214,9 @@ And I call it with something like:
 
 ```sass
 .icon-primary {
-  @include svgColors($neutralColor, $primaryColor, true);
+  @include svgColors($neutralColor, $primaryColor);
 }
 ```
-If you're wondering about the `$patchCurrentColorForIE` parameter, I have that there for icons that won't require multiple colors, and thus don't need the shim applied.
 
 ### Other Color Variation Techniques
 
