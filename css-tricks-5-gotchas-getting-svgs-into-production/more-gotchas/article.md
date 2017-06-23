@@ -38,7 +38,12 @@ If you're experiencing this outside of Sortable, you likely just need to hook in
 As I'm boggled by this IE11 specific issue, I'd love to hear if you've encountered this issue yourself, have any alternate solutions and/or greater understanding of the root IE issues, so do leave a comment if so.
 
 ## Gotcha Seven: IE Performance Boosts Replacing SVG4Everybody with Ajax Strategy
-TBD
+
+* Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
+
+* base section off https://twitter.com/roblevintennis/status/661343623645032448 
+- work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
+- so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
 ## Gotcha Eight: NonScaling Stroke From the Trenches
 TBD
