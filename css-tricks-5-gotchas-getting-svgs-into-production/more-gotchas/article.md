@@ -46,7 +46,21 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
 ## Gotcha Eight: NonScaling Stroke From the Trenches
-TBD
+At Mavenlink we use svg’s for all our icons, by now you probably understand why and what the benefits are...so I’ll cut straight to the issue.
+ 
+We were running into an issue where we were starting to need multiple sizes of our icons, which with svg is no problem right? Wrong. Our assets started looking blurry or too heavy for the various sizes we needed, it was super disappointing to realize that we might need multiple sizes of a scalable asset in-order to get the results we were looking for.
+
+This just seemed wrong. We took a step back and tried to find a way to have crisp balanced assets while taking advantage of the strengths of SVG’s. The answer came in the form of strokes over fills, while this method won’t work for all icon styles, it was exactly what we needed.
+
+Imagine you have a 10px x 10px icon with some 1px shapes and scale it to 15px those 1px shapes will now be 1.5px and the sharpness of your icons will be left up to how the viewers browser wants to render it. Not optimum.  
+
+On the designery side we can also compare it to using a text typeface for titling instead of using a display typeface. It's gonna be clunky and misproportioned, too heavy for the use case. The proportions of a text face are designed to be used within a range of sizes good for long passages where as a display face is balanced for large and relitvely short "titles". 
+
+The bottom line is using strokes gives you more control and better visual results. Heres an example of what I’m talking about.
+
+![Strokes VS Fills](./images/strokes-vs-fills.png "Strokes VS Fills")
+
+Putting it into action.
 
 ## Gotcha Nine: TBD
 ## Gotcha Ten: TBD
