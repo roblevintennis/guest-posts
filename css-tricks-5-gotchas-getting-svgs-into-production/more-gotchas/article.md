@@ -46,21 +46,32 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
 ## Gotcha Eight: NonScaling Stroke From the Trenches
-At Mavenlink we use svg’s for all our icons, by now you probably understand why and what the benefits are...so I’ll cut straight to the issue.
- 
-We were running into an issue where we were starting to need multiple sizes of our icons, which with svg is no problem right? Wrong. Our assets started looking blurry or too heavy for the various sizes we needed, it was super disappointing to realize that we might need multiple sizes of a scalable asset in-order to get the results we were looking for.
 
-This just seemed wrong. We took a step back and tried to find a way to have crisp balanced assets while taking advantage of the strengths of SVG’s. The answer came in the form of strokes over fills, while this method won’t work for all icon styles, it was exactly what we needed.
-
-Imagine you have a 10px x 10px icon with some 1px shapes and scale it to 15px those 1px shapes will now be 1.5px and the sharpness of your icons will be left up to how the viewers browser wants to render it. Not optimum.  
-
-On the designery side we can also compare it to using a text typeface for titling instead of using a display typeface. It's gonna be clunky and misproportioned, too heavy for the use case. The proportions of a text face are designed to be used within a range of sizes good for long passages where as a display face is balanced for large and relitvely short "titles". 
-
-The bottom line is using strokes gives you more control and better visual results. Heres an example of what I’m talking about.
+In cases where you want to have various sizes of the same icon you may want to lock down the stroke sizes of those icons...
 
 ![Strokes VS Fills](./images/strokes-vs-fills.png "Strokes VS Fills")
 
-Putting it into action.
+Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which is problematic in 2 ways: 
+
+1. Your shape can be on sub pixel bounds causing blurryness because the sharpness of your icons will be left up to how the viewers browser wants to render it. Not optimum. 
+
+2. The scaling of the icon will likely result in undesireable proportions, borders that are too thick or heavy.
+
+I can hear you asking "but aren't svg's supposed to scale?". Sure but some cases you might want to think about the proportions of your shapes, like in typography...
+
+From the design perspective you can compare we can also compare it to using a text typeface for titling instead of using a display typeface. It's gonna be clunky and misproportioned, too heavy for the use case. The proportions of a text face are designed to be used within a range of sizes good for long passages where as a display face is balanced for large and relitvely short "titles". 
+
+###Exporting AI
+
+
+###Clean up
+unfortunate that you have to hand clean it. sometimes a mix of stroke and fill.
+
+###CodePen Example
+
+The set on the left are scaling proportionately and on the right we are maintaining the same stroke width while scaling. 
+<p data-height="275" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 ## Gotcha Nine: TBD
 ## Gotcha Ten: TBD
