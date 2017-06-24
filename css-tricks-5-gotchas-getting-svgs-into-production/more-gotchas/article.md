@@ -51,6 +51,8 @@ In cases where you want to have various sizes of the same icon you may want to l
 
 ### Why what's the issue?
 ![Strokes VS Fills](./images/strokes-vs-fills.png "Strokes VS Fills")
+![Strokes VS Fills](./images/strokes-vs-fills-smaller.png "Strokes VS Fills")
+![Strokes VS Fills](./images/strokes-vs-fills-no-pixel-preview.png "Strokes VS Fills")
 Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which is gross and the fuzz is more visible on standard density screens.  It also depends on what you scale to, as that will have a bearing on whether or not your icons are on the sub pixel or not. Generally I prefer not to leave the sharpness of my icons to the will of the viewer's browser.
  
 The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you asking "but aren't that what svg's are supposed to do?". Yes but, being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a text typeface for titling, rather than a display or titling typeface, you can do it but it's not gonna look so hot.
@@ -59,7 +61,15 @@ The other problem is more of a visual weight issue. As you scale a standard icon
 I usually just use the Export As "svg" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off (Most of the time it takes me a few try's to remember that, as I don't do it too often).
 
 ### Clean up
-Unfortunately you do have some hand cleaning to do on the svg, I haven't found anything on automating it yet although I'm sure it's out there. I start by clearing out the `data-name` and `id` then add in the `x="0px" y="0px"`, `enable-background="new 0 0 height width"` and ` xml:space="preserve"`. Next I'll add in `class="non-scaling-stroke"` which applies `vector-effect: non-scaling-stroke;` to the strokes that I'd like to lock down when scaling the icon. That's it! Now you have beautiful pixel adherent strokes!
+Unfortunately you do have some hand cleaning to do on the svg, I haven't found anything on automating it yet although I'm sure it's out there. I start by clearing out the `data-name` and `id` then add in the `x="0px" y="0px"`, `enable-background="new 0 0 height width"` and ` xml:space="preserve"`. Next I'll add in `class="non-scaling-stroke"` which applies
+
+```css
+.non-scaling-stroke {
+	vector-effect: non-scaling-stroke;
+}
+```
+
+to the strokes that I'd like to lock down when scaling the icon. That's it! Now you have beautiful pixel adherent strokes!
 
 ### CodePen Example
 
