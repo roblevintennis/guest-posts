@@ -1,6 +1,4 @@
-[[https://github.com/roblevintennis/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/repairing-explorations.svg|alt=explorations-in-debugging]]
-
-![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
+![Debugging Explorations Illustration](/images/path/repairing-explorations.svg?raw=true "Debugging Explorations Illustration")
 
 
 <em class="explanation">The following is a guest post by Rob Levin and Chris Rumble. Rob and Chris both work on the product design team at <a href="https://medium.com/mavenlink-product-development">Mavenlink</a>. Rob is also creator and host of the [SVG Immersion Podcast](http://svgimmersion.com/) and wrote the original 5 Gotchas article in '14. Chris [ADD INTRO AND LINK HERE]. In this article, they go over some additional issues they encountered incorporating inline SVGs in to the production application over 2 years in.</em> 
