@@ -49,31 +49,51 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 
 In cases where you want to have various sizes of the same icon you may want to lock down the stroke sizes of those icons...
 
+###Why what's the issue?
 ![Strokes VS Fills](./images/strokes-vs-fills.png "Strokes VS Fills")
-
-Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which is problematic in 2 ways: 
-
-1. Your shape can be on sub pixel bounds causing blurryness because the sharpness of your icons will be left up to how the viewers browser wants to render it. Not optimum. 
-
-2. The scaling of the icon will likely result in undesireable proportions, borders that are too thick or heavy.
-
-I can hear you asking "but aren't svg's supposed to scale?". Sure but some cases you might want to think about the proportions of your shapes, like in typography...
-
-From the design perspective you can compare we can also compare it to using a text typeface for titling instead of using a display typeface. It's gonna be clunky and misproportioned, too heavy for the use case. The proportions of a text face are designed to be used within a range of sizes good for long passages where as a display face is balanced for large and relitvely short "titles". 
+Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which is gross and the fuzz is more visible on standard density screens.  It also depends on what you scale to, as that will have a bearing on whether or not your icons are on the sub pixel or not. Generally I prefer not to leave the sharpness of my icons to the will of the viewer's browser.
+ 
+The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you asking "but aren't that what svg's are supposed to do?". Yes but, being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a text typeface for titling, rather than a display or titling typeface, you can do it but it's not gonna look so hot.
 
 ###Exporting AI
-
+I usually just use the Export As "svg" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off (Most of the time it takes me a few try's to remember that, as I don't do it too often).
 
 ###Clean up
-unfortunate that you have to hand clean it. sometimes a mix of stroke and fill.
+Unfortunately you do have some hand cleaning to do on the svg, I haven't found anything on automating it yet although I'm sure it's out there. I start by clearing out the `data-name` and `id` then add in the `x="0px" y="0px"`, `enable-background="new 0 0 height width"` and ` xml:space="preserve"`. Next I'll add in `class="non-scaling-stroke"` which applies `vector-effect: non-scaling-stroke;` to the strokes that I'd like to lock down when scaling the icon. That's it! Now you have beautiful pixel adherent strokes!
 
 ###CodePen Example
 
-The set on the left are scaling proportionately and on the right we are maintaining the same stroke width while scaling. 
+The set on the left are scaling proportionately and on the right we are maintaining the same stroke width while scaling. In the end it may be more of a preference then a gottcha but anytime you have some more control over what's happening, I feel like it's a win.
 <p data-height="275" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
-## Gotcha Nine: TBD
+## Gotcha Nine: Maybe something on themeing?
+(Need to build out more but here's the idea...Also I need to double check cause I may have been theming more than just icons) 
+
+Probably not a gottcha...but still kinda fun. Since you are already using grunt to build your defs file why not add some easy svg theming? 
+
+To get started add this to your grunt task:
+
+```javascript
+var globalConfig = {
+	file: 'themes/your-theme' // this is the default value, for a single project.
+}
+```
+and 
+
+```javascript
+grunt.registerTask('theme', 'Upload code to specified target.', function(themeName) {
+    globalConfig.file = 'themes/' + themeName;
+    grunt.task.run( 'clean:dist','copy:main','svgstore:default', 'svgmin:dist');
+});
+```
+then just run `grunt theme:your-theme-name`
+
+And wholla, populate a whole new icon set without loosing the old one.
+
+
+
+
 ## Gotcha Ten: TBD
 
 ## Conclusion
