@@ -1,7 +1,7 @@
 # 5 More Gotchas Getting Inline SVG Into Production
 
 <figure>
-[![Explorations in Debugging](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging.svg)](https://www.instagram.com/roblevintennis/)
+[<img src="https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging.svg" alt="Explorations in Debugging Illustration" title="Explorations in Debugging Illustration—by Rob Levin">](https://www.instagram.com/roblevintennis/)
 <figcaption>Explorations in Debugging—Illustration by Rob Levin</figcaption>
 </figure>
 
