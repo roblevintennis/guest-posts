@@ -1,6 +1,6 @@
 # 5 More Gotchas Getting Inline SVG Into Production
 
-[![Explorations in Debugging](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging.svg "Explorations in Debugging—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+[![Explorations in Debugging](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging-2.svg "Explorations in Debugging—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
 <em class="explanation">The following is a guest post by Rob Levin and Chris Rumble. Rob and Chris both work on the product design team at <a href="https://medium.com/mavenlink-product-development">Mavenlink</a>. Rob is also creator and host of the [SVG Immersion Podcast](http://svgimmersion.com/) and wrote the original [5 Gotchas](https://css-tricks.com/gotchas-on-getting-svg-into-production/) article back in '14. Chris, is a [UI and Motion Designer/Developer](http://www.rumble-ish.com/) based out of San Francisco. In this article, they go over some additional issues they encountered after incorporating inline SVGs in to Mavenlink's flagship application more then 2 years ago. The article illustrations were also done by [Rob](https://www.instagram.com/roblevintennis/).</em> 
 
