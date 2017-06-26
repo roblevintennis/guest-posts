@@ -2,7 +2,7 @@
 
 [![Explorations in Debugging](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging.svg "Explorations in Debugging—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
-<em class="explanation">The following is a guest post by Rob Levin and Chris Rumble. Rob and Chris both work on the product design team at <a href="https://medium.com/mavenlink-product-development">Mavenlink</a>. Rob is also creator and host of the [SVG Immersion Podcast](http://svgimmersion.com/) and wrote the original [5 Gotchas](https://css-tricks.com/gotchas-on-getting-svg-into-production/) article back in '14 (so we'll number these next five 6-10!). Chris, is a [UI and Motion Designer/Developer](http://www.rumble-ish.com/) based out of San Francisco. In this article, they go over some additional issues they encountered after incorporating inline SVGs in to Mavenlink's flagship application more then 2 years ago.</em> 
+<em class="explanation">The following is a guest post by Rob Levin and Chris Rumble. Rob and Chris both work on the product design team at <a href="https://medium.com/mavenlink-product-development">Mavenlink</a>. Rob is also creator and host of the [SVG Immersion Podcast](http://svgimmersion.com/) and wrote the original [5 Gotchas](https://css-tricks.com/gotchas-on-getting-svg-into-production/) article back in '14. Chris, is a [UI and Motion Designer/Developer](http://www.rumble-ish.com/) based out of San Francisco. In this article, they go over some additional issues they encountered after incorporating inline SVGs in to Mavenlink's flagship application more then 2 years ago. The article illustrations were done by [Rob]((https://www.instagram.com/roblevintennis/))</em> 
 
 Wow, it's been over 2 years since we posted the [5 Gotchas Getting SVG Into Production](https://css-tricks.com/gotchas-on-getting-svg-into-production/) article. Well, we've encountered some new gotchas making it time for another follow up post! We'll label these 6-10 paying homage to the first 5 gotchas in the original post :)
 
@@ -110,4 +110,5 @@ And wholla, populate a whole new icon set without loosing the old one.
 ## Gotcha Ten: TBD
 
 ## Conclusion
+
 TBD
