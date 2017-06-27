@@ -53,7 +53,7 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 In cases where you want to have various sizes of the same icon you may want to lock down the stroke sizes of those icons...
 
 ### Why what's the issue?
-<img style="width:1000px;" src="./images/strokes-vs-fills.jpg" title="Strokes VS Fills" alt="Strokes VS Fills" />
+<img style="max-width:1000px;" src="./images/strokes-vs-fills.jpg" title="Strokes VS Fills" alt="Strokes VS Fills" />
 Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft of fuzzy icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what you scale to, as that will have a bearing on whether or not your icons are on the sub-pixel. Generally, I prefer not to leave the sharpness of my icons to the will of the viewer's browser.
  
 The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you asking "but isn't that what svg's are supposed to do?". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
@@ -74,7 +74,7 @@ I usually just use the Export As "svg" option in Illustrator, I find it gives me
 	<polyline points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
 </svg>
 ```
-<img style="float:right; width:300px;" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
+<img style="float:right; max-width:300px;" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 I know you see a couple of `.5`'s in there, don't freak! The coordinates are placed on the .5 of a pixel so that when you have your 1px stroke you have 1/2 on each side of the path. Like this:
 
 ### Clean up
