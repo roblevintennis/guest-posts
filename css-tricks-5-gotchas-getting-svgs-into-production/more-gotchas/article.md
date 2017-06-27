@@ -75,7 +75,7 @@ I usually just use the Export As "svg" option in Illustrator, I find it gives me
 </svg>
 ```
 
-I know you see a couple of `.5`'s in there, don't freak! The coordinates are placed on the .5 of a pixel so that when you have your 1px stroke you have 1/2 on each side of the path. Like this:
+I know you see a couple of `.5`'s in there, don't freak! The coordinates are placed on the .5 of a pixel so that when you have your 1px stroke you have 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 
 ### Clean up
