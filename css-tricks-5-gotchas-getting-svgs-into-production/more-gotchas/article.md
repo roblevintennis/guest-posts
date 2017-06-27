@@ -1,4 +1,4 @@
-# 5 More Gotchas Getting Inline SVG Into Production
+# More Gotchas Getting Inline SVG Into Production—Part II
 
 [![Explorations in Debugging](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging-4.svg "Explorations in Debugging—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
