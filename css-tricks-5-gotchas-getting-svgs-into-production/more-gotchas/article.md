@@ -68,12 +68,12 @@ I usually just use the Export As "SVG" option in Illustrator, I find it gives me
 
 ```xml
 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-  <title>Task Icon</title>
+  <title>icon-task-stroke</title>
   <polyline points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <rect x="5.5" y="0.5" width="7" height="4" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line x1="3" y1="4.5" x2="0.5" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line x1="17.5" y1="4.5" x2="15" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <polyline points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
+  <polyline points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="1"/>
 </svg>
 ```
 
@@ -95,12 +95,12 @@ SVG
 
 ```xml
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-  <title>Task Icon</title>
+  <title>icon-task-stroke</title>
   <polyline class="non-scaling-stroke" points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <rect class="non-scaling-stroke" x="5.5" y="0.5" width="7" height="4" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line class="non-scaling-stroke" x1="3" y1="4.5" x2="0.5" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line class="non-scaling-stroke" x1="17.5" y1="4.5" x2="15" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <polyline class="non-scaling-stroke" points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
+  <polyline class="non-scaling-stroke" stroke="currentcolor" points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="1"/>
 </svg>
 ```
 
@@ -109,12 +109,14 @@ This keeps the strokes, if specified, from scaling (otherwise it stays at 1px) w
 And after all is said and done (and you have preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
 
 ```xml
-<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" id="icon-test-task">
-  <title>Task Icon</title>
-  <path class="non-scaling-stroke" d="M5.5 1.5h-5v16h17v-16h-5"/>
-  <path class="non-scaling-stroke" d="M5.5.5h7v4h-7zM3 4.5H.5M17.5 4.5H15"/>
-  <path class="non-scaling-stroke" stroke-width="2" d="M6 10l2 2 4-4"/>
-</symbol>
+<svg>
+  <symbol viewBox="0 0 18 18" id="icon-task-stroke">
+    <title>icon-task-stroke</title>
+    <path class="non-scaling-stroke" stroke-miterlimit="10" d="M5.5 1.5h-5v16h17v-16h-5"/>
+    <path class="non-scaling-stroke" stroke-miterlimit="10" d="M5.5.5h7v4h-7zM3 4.5H.5M17.5 4.5H15"/>
+    <path class="non-scaling-stroke" stroke="currentColor" stroke-miterlimit="10" d="M6 10l2 2 4-4"/>
+  </symbol>
+</svg>
 ```
 
 ### CodePen Example
