@@ -54,15 +54,15 @@ In cases where you want to have various sizes of the same icon you may want to l
 
 ### Why what's the issue?
 ![Strokes VS Fills](./images/strokes-vs-fills.jpg "Strokes VS Fills")
-Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft of fuzzy icon due to borders being displayed on sub pixel boundaries. This softness It also depends on what you scale to, as that will have a bearing on whether or not your icons are on the sub pixel or not. Generally I prefer not to leave the sharpness of my icons to the will of the viewer's browser.
+Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft of fuzzy icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what you scale to, as that will have a bearing on whether or not your icons are on the sub-pixel. Generally, I prefer not to leave the sharpness of my icons to the will of the viewer's browser.
  
-The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you asking "but aren't that what svg's are supposed to do?". Yes but, being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a text typeface for titling, rather than a display or titling typeface, you can do it but why when you could have a tight and sharp UI.
+The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you asking "but isn't that what svg's are supposed to do?". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
 
 ### Prepping the icon
-I primarlily uses Illustrator to create icons, there are plenty of tools out there and most of them will probably work fine. This is just my workflow with one of those tools. I start creating an icon by focusing on what it needs to communicate not really anything technical. After I'm satasfied that it solves my visual needs I then start scaling and tweaking it to fit our technical needs. First sizing it to fit to the pixel grid (⌘⌥Y in illustrator) at the size we are going to be using it at and utelizing illustrators align to pixel grid feature. Then I try to keep diagonals on 45° and balance out any curves or odd shapes so that they dont't blend into other shapes or become heavy or misshapen. I don't think there is any formula for this, as most things that aren't straight lines are gonna look a little funky...just make sure that it's a funky you've decided on rather then being unaware of it! Sometimes I scrap the whole idea if it's not gonna work at the size we need and start from scratch in a new direction, if it's the best visual solution but no one can identify it...it's not worth anything.
+I primarlily use Illustrator to create icons, but there are plenty of tools out there and most of them will work fine. First size and align your icon to the pixel grid (⌘⌥Y in illustrator for pixel preview, on a mac) at the size you are going to be using it at. I try to keep diagonals on 45° and adjust any curves or odd shapes so they don't get weird. I don't think there is any formula for this, just get it as close as you can to something you like.
 
 ### Exporting AI
-I usually just use the Export As "svg" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off (Most of the time it takes me a few try's to remember that, as I don't do it too often). It will come out looking something like this...
+I usually just use the Export As "svg" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off. It will come out looking something like this...
 
 ```xml
 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -74,19 +74,38 @@ I usually just use the Export As "svg" option in Illustrator, I find it gives me
 	<polyline points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
 </svg>
 ```
-I know you see a couple of `.5`'s in there, don't freak! The coordinates are placed on the .5 of a pixel so that when you have your 1px stroke you have 1/2 on each side of the path.
+I know you see a couple of `.5`'s in there, don't freak! The coordinates are placed on the .5 of a pixel so that when you have your 1px stroke you have 1/2 on each side of the path. Like this:
+![Strokes on the Pixel Grid](./images/pixel-view.png "Strokes on the Pixel Grid")
 
 ### Clean up
-Our grunt task which Rob talks about in the previous article cleans almost everything up...unfortunately for the non-scaling-stroke you do have some hand cleaning to do on the svg, but I promise it's not too bad! Just add in a class to the paths which you want to restrict stroke scaling. Then in your css add the class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this. 
+Our grunt task which Rob talks about in the previous article cleans almost everything up...unfortunately for the non-scaling-stroke you do have some hand cleaning to do on the svg, but I promise it's not too bad! Just add in a class to the paths which you want to restrict stroke scaling. Then in your css add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this. 
+
+CSS
 
 ```css
 .non-scaling-stroke {
 	vector-effect: non-scaling-stroke;
 }
 ```
+
+SVG
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+  <title>Task Icon</title>
+  <g>
+    <polyline class="non-scaling-stroke" points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
+    <rect class="non-scaling-stroke" x="5.5" y="0.5" width="7" height="4" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
+    <line class="non-scaling-stroke" x1="3" y1="4.5" x2="0.5" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
+    <line class="non-scaling-stroke" x1="17.5" y1="4.5" x2="15" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
+    <polyline class="non-scaling-stroke" points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
+  </g>
+</svg>
+```
+
 This keeps the strokes if specified from scaling (if not it stays at 1px)  even when the SVG is scaled. That's it! Now you have beautiful pixel adherent strokes that will maintain their stroke width!
 
-And after all is said and done your svg will look like this in the defs file:
+And after all is said and done (and you've preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
 
 ```xml
 <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" id="icon-test-task">
