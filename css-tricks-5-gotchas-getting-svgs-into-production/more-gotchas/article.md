@@ -81,6 +81,9 @@ I know you see a couple of `.5`'s in there, don't freak! The coordinates are pla
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 
 ### Clean up
+
+[![Galactic Vacuum](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/galactic-vacuum.svg "Galactic Vacuum—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+
 Our grunt task which Rob talks about in the previous article cleans almost everything up...unfortunately for the non-scaling-stroke you do have some hand cleaning to do on the svg, but I promise it's not too bad! Just add in a class to the paths which you want to restrict stroke scaling. Then in your css add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this. 
 
 CSS
