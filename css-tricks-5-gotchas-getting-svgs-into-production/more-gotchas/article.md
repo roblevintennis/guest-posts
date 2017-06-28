@@ -1,4 +1,4 @@
-# 5 More Gotchas Getting Inline SVG Into Production
+# More Gotchas Getting Inline SVG Into Production—Part II
 
 [![Explorations in Debugging](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/explorations-in-debugging-4.svg "Explorations in Debugging—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
@@ -52,39 +52,37 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 
 ## Gotcha Eight: NonScaling Stroke From the Trenches
 
-In cases where you want to have various sizes of the same icon you may want to lock down the stroke sizes of those icons...
+In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons.
 
 ### Why what's the issue?
 <img width="1000" src="./images/strokes-vs-fills.jpg" title="Strokes VS Fills" alt="Strokes VS Fills" />
-Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft of fuzzy icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what you scale to, as that will have a bearing on whether or not your icons are on the sub-pixel. Generally, I prefer not to leave the sharpness of my icons to the will of the viewer's browser.
+Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft of fuzzy icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what you scale to, as that will have a bearing on whether your icons are on sub-pixel boundaries. Generally, it's best to control the sharpness of your icons rather than leaving them up to the will of the viewer's browser.
  
-The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you asking "but isn't that what svg's are supposed to do?". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
+The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you saying "SVG's are supposed to that". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
 
 ### Prepping the icon
-I primarlily use Illustrator to create icons, but there are plenty of tools out there and most of them will work fine. First size and align your icon to the pixel grid (⌘⌥Y in illustrator for pixel preview, on a mac) at the size you are going to be using it at. I try to keep diagonals on 45° and adjust any curves or odd shapes so they don't get weird. I don't think there is any formula for this, just get it as close as you can to something you like.
+I primarily use Illustrator to create icons, but plenty of tools out there will work fine. First, size, and align your icon to the pixel grid (⌘⌥Y in Illustrator for pixel preview, on a Mac) at the size you are going to be using it at. I try to keep diagonals on 45° and adjust any curves or odd shapes to keep them from getting weird. No formula exists for this, just get it as close as you can to something you like.
 
 ### Exporting AI
-I usually just use the Export As "svg" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off. It will come out looking something like this...
+I usually just use the Export As "SVG" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off. It will come out looking something like this:
 
 ```xml
 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-  <title>Task Icon</title>
+  <title>icon-task-stroke</title>
   <polyline points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <rect x="5.5" y="0.5" width="7" height="4" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line x1="3" y1="4.5" x2="0.5" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line x1="17.5" y1="4.5" x2="15" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <polyline points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
+  <polyline points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="1"/>
 </svg>
 ```
 
-I know you see a couple of `.5`'s in there, don't freak! The coordinates are placed on the .5 of a pixel so that when you have your 1px stroke you have 1/2 on each side of the path. It looks something like this (in Illustrator):
+I know you see a couple of `.5`'s in there, this is purposeful! The coordinates are placed on the .5 of a pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
-
-### Clean up
 
 [![Galactic Vacuum](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/galactic-vacuum.svg "Galactic Vacuum—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
-Our grunt task which Rob talks about in the previous article cleans almost everything up...unfortunately for the non-scaling-stroke you do have some hand cleaning to do on the svg, but I promise it's not too bad! Just add in a class to the paths which you want to restrict stroke scaling. Then in your css add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this. 
+Our grunt task, which Rob talks about in the previous article, cleans almost everything up. Unfortunately for the non-scaling-stroke you have some hand cleaning to do on the SVG, but I promise it is easy! Just add a class to the paths on which you want to restrict stroke scaling. Then, in your CSS add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this. 
 
 CSS
 
@@ -98,33 +96,36 @@ SVG
 
 ```xml
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-  <title>Task Icon</title>
+  <title>icon-task-stroke</title>
   <polyline class="non-scaling-stroke" points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <rect class="non-scaling-stroke" x="5.5" y="0.5" width="7" height="4" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line class="non-scaling-stroke" x1="3" y1="4.5" x2="0.5" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
   <line class="non-scaling-stroke" x1="17.5" y1="4.5" x2="15" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <polyline class="non-scaling-stroke" points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="2"/>
+  <polyline class="non-scaling-stroke" stroke="currentcolor" points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="1"/>
 </svg>
 ```
 
-This keeps the strokes if specified from scaling (if not it stays at 1px)  even when the SVG is scaled. That's it! Now you have beautiful pixel adherent strokes that will maintain their stroke width!
+This keeps the strokes, if specified, from scaling (otherwise it stays at 1px) when the SVG is scaled. That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
 
-And after all is said and done (and you've preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
+And after all is said and done (and you have preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
 
 ```xml
-<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" id="icon-test-task">
-  <title>Task Icon</title>
-  <path class="non-scaling-stroke" d="M5.5 1.5h-5v16h17v-16h-5"/>
-  <path class="non-scaling-stroke" d="M5.5.5h7v4h-7zM3 4.5H.5M17.5 4.5H15"/>
-  <path class="non-scaling-stroke" stroke-width="2" d="M6 10l2 2 4-4"/>
-</symbol>
+<svg>
+  <symbol viewBox="0 0 18 18" id="icon-task-stroke">
+    <title>icon-task-stroke</title>
+    <path class="non-scaling-stroke" stroke-miterlimit="10" d="M5.5 1.5h-5v16h17v-16h-5"/>
+    <path class="non-scaling-stroke" stroke-miterlimit="10" d="M5.5.5h7v4h-7zM3 4.5H.5M17.5 4.5H15"/>
+    <path class="non-scaling-stroke" stroke="currentColor" stroke-miterlimit="10" d="M6 10l2 2 4-4"/>
+  </symbol>
+</svg>
 ```
 
 ### CodePen Example
 
-The set on the left are scaling proportionately and on the right we are maintaining the same stroke width while scaling. In the end it may be more of a visual preference then a gottcha but anytime you have some more control over how your icons look and behave, I feel like it's a win.
-<p data-height="275" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+The icon set on the left are scaling proportionately and on the right we using the vector effect non-scaling-stroke. In the end this might be more of a visual preference then a gottcha but anytime you have some more control over how your icons look and behave, I feel like it's a win.
+<p data-height="265" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
 
 ## Gotcha Nine: TBD
 
