@@ -43,11 +43,10 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 ## Gotcha Seven: IE Performance Boosts Replacing SVG4Everybody with Ajax Strategy
 
 [![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-4.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
-
-* Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
-
-* base section off https://twitter.com/roblevintennis/status/661343623645032448 
-- work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
+TBD but will address following:
+- Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
+- base section off https://twitter.com/roblevintennis/status/661343623645032448 
+- Our work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
 ## Gotcha Eight: NonScaling Stroke From the Trenches
@@ -79,6 +78,8 @@ I usually just use the Export As "SVG" option in Illustrator, I find it gives me
 
 I know you see a couple of `.5`'s in there, this is purposeful! The coordinates are placed on the .5 of a pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
+
+### Clean Up
 
 [![Galactic Vacuum](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/galactic-vacuum3.svg "Galactic Vacuum—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
