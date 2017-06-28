@@ -42,7 +42,7 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 
 ## Gotcha Seven: IE Performance Boosts Replacing SVG4Everybody with Ajax Strategy
 
-[![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-2.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+[![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-3.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
 * Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
 
