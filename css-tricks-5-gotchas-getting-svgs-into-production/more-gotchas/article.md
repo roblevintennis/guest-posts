@@ -49,15 +49,15 @@ TBD but will address following:
 - Our work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
-## Gotcha Eight: NonScaling Stroke From the Trenches
+## Gotcha Eight: Non-Scaling Stroke From the Trenches
 
-In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons.
+In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons…
 
 ### Why what's the issue?
 <img width="1000" src="./images/strokes-vs-fills.jpg" title="Strokes VS Fills" alt="Strokes VS Fills" />
-Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft of fuzzy icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what you scale to, as that will have a bearing on whether your icons are on sub-pixel boundaries. Generally, it's best to control the sharpness of your icons rather than leaving them up to the will of the viewer's browser.
+Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a sort of "soft and fuzzy" icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what exactly you scale to, as that will have a bearing on whether your icons are on sub-pixel boundaries. Generally, it's best to control the sharpness of your icons rather than leaving them up to the will of the viewer's browser.
  
-The other problem is more of a visual weight issue. As you scale a standard icon using fills it scales proportionately...I can hear you saying "SVG's are supposed to that". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
+The other problem is more of a visual weight issue. As you scale a standard icon using fills only, it scales everything proportionately...I can hear you saying "but, aren't SVG's are _supposed_ to that". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it as similar to using a <em>text</em> typeface for titling, rather than a <em>display</em> or <em>titling</em> typeface—you can certainly do it, but why would you want to when you could have a tight and sharp display title?
 
 ### Prepping the icon
 I primarily use Illustrator to create icons, but plenty of tools out there will work fine. First, size, and align your icon to the pixel grid (⌘⌥Y in Illustrator for pixel preview, on a Mac) at the size you are going to be using it at. I try to keep diagonals on 45° and adjust any curves or odd shapes to keep them from getting weird. No formula exists for this, just get it as close as you can to something you like.
