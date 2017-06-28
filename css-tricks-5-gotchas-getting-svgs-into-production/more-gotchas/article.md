@@ -80,7 +80,7 @@ I usually just use the Export As "SVG" option in Illustrator, I find it gives me
 I know you see a couple of `.5`'s in there, this is purposeful! The coordinates are placed on the .5 of a pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 
-[![Galactic Vacuum](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/galactic-vacuum.svg "Galactic Vacuum—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+[![Galactic Vacuum](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/galactic-vacuum2.svg "Galactic Vacuum—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
 Our grunt task, which Rob talks about in the previous article, cleans almost everything up. Unfortunately for the non-scaling-stroke you have some hand cleaning to do on the SVG, but I promise it is easy! Just add a class to the paths on which you want to restrict stroke scaling. Then, in your CSS add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this. 
 
