@@ -42,20 +42,20 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 
 ## Gotcha Seven: IE Performance Boosts Replacing SVG4Everybody with Ajax Strategy
 
-[![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-2.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
-
-* Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
-
-* base section off https://twitter.com/roblevintennis/status/661343623645032448 
-- work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
+[![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-4.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+TBD but will address following:
+- Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
+- base section off https://twitter.com/roblevintennis/status/661343623645032448 
+- Our work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
-## Gotcha Eight: NonScaling Stroke From the Trenches
+## Gotcha Eight: Non-Scaling Stroke From the Trenches
 
-In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons.
+In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons…
 
 ### Why, What's the Issue?
 <img width="1000" src="./images/strokes-vs-fills.jpg" title="Strokes VS Fills" alt="Strokes VS Fills" />
+
 Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and scale it to `15px`. Those `1px` shapes will now be `1.5px` which ends up creating a soft or fuzzy icon due to borders being displayed on sub-pixel boundaries. This softness also depends on what you scale to, as that will have a bearing on whether your icons are on sub-pixel boundaries. Generally, it's best to control the sharpness of your icons rather than leaving them up to the will of the viewer's browser.
  
 The other problem is more of a visual weight issue. As you scale a standard icon using fills, it scales proportionately...I can hear you saying "SVG's are supposed to that". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
@@ -77,11 +77,14 @@ I usually just use the Export As "SVG" option in Illustrator, I find it gives me
 </svg>
 ```
 
-I know you see a couple of `.5`'s in there, this is purposeful! The coordinates are placed on the .5 of a pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
+I know you see a couple of 1/2 pixes in there, this is purposeful! The coordinates are placed on the 1/2 pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 
 ### Clean Up
-Our grunt task, which Rob talks about in the previous article, cleans up almost everything. Unfortunately for the non-scaling-stroke you have some hand-cleaning to do on the SVG, but I promise it is easy! Just add a class to the paths on which you want to restrict stroke scaling. Then, in your CSS add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this: 
+
+[![Galactic Vacuum](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/galactic-vacuum-5.svg "Galactic Vacuum—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+
+Our Grunt task, which Rob talks about in the previous article, cleans up almost everything. Unfortunately for the non-scaling-stroke you have some hand-cleaning to do on the SVG, but I promise it is easy! Just add a class to the paths on which you want to restrict stroke scaling. Then, in your CSS add a class and apply the attribute `vector-effect: non-scaling-stroke;` which should look something like this: 
 
 CSS
 
