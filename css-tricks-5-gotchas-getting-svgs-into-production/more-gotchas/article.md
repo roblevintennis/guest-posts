@@ -49,7 +49,7 @@ TBD but will address following:
 - Our work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
-## Gotcha Eight: Designing Non-Scaling Stroke From the Trenches
+## Gotcha Eight: Designing Non-Scaling Stroke Icons
 
 In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons…
 
@@ -85,7 +85,7 @@ I know you see a couple of 1/2 pixes in there, this is purposeful! The coordinat
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 
 
-## Gotcha Nine: Implementing Non-Scaling Stroke From the Trenches
+## Gotcha Nine: Implementing Non-Scaling Stroke
 
 ### Clean Up
 
