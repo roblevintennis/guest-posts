@@ -49,7 +49,7 @@ TBD but will address following:
 - Our work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
 - so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
 
-## Gotcha Eight: Non-Scaling Stroke From the Trenches
+## Gotcha Eight: Designing Non-Scaling Stroke From the Trenches
 
 In cases where you want to have various sizes of the same icon, you may want to lock down the stroke sizes of those icons…
 
@@ -60,8 +60,12 @@ Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and sc
  
 The other problem is more of a visual weight issue. As you scale a standard icon using fills, it scales proportionately...I can hear you saying "SVG's are supposed to that". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
 
+### <em> ToDo: Look Into doing this in Sketch too </em>
+
 ### Prepping the Icon
 I primarily use Illustrator to create icons, but plenty of tools out there will work fine. First, size and align your icon to the pixel grid (⌘⌥Y in Illustrator for pixel preview, on a Mac) at the size you are going to be using it. I try to keep diagonals on 45° and adjust any curves or odd shapes to keep them from getting weird. No formula exists for this, just get it as close as you can to something you like.
+
+### <em> ToDo: Build Out a Bit More About the Design Side </em>
 
 ### Exporting AI
 I usually just use the Export As "SVG" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off. It will come out looking something like this:
@@ -79,6 +83,9 @@ I usually just use the Export As "SVG" option in Illustrator, I find it gives me
 
 I know you see a couple of 1/2 pixes in there, this is purposeful! The coordinates are placed on the 1/2 pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
+
+
+## Gotcha Nine: Implementing Non-Scaling Stroke From the Trenches
 
 ### Clean Up
 
@@ -99,15 +106,19 @@ SVG
 ```xml
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
   <title>icon-task-stroke</title>
-  <polyline class="non-scaling-stroke" points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <rect class="non-scaling-stroke" x="5.5" y="0.5" width="7" height="4" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <line class="non-scaling-stroke" x1="3" y1="4.5" x2="0.5" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <line class="non-scaling-stroke" x1="17.5" y1="4.5" x2="15" y2="4.5" fill="none" stroke="#b6b6b6" stroke-miterlimit="10"/>
-  <polyline class="non-scaling-stroke" stroke="currentcolor" points="6 10 8 12 12 8" fill="none" stroke="#ffa800" stroke-miterlimit="10" stroke-width="1"/>
+  <polyline class="non-scaling-stroke" points="5.5 1.5 0.5 1.5 0.5 4.5 0.5 17.5 17.5 17.5 17.5 1.5 12.5 1.5" stroke="#b6b6b6" stroke-miterlimit="10"/>
+  <rect class="non-scaling-stroke" x="5.5" y="0.5" width="7" height="4" stroke="#b6b6b6" stroke-miterlimit="10"/>
+  <line class="non-scaling-stroke" x1="3" y1="4.5" x2="0.5" y2="4.5" stroke="#b6b6b6" stroke-miterlimit="10"/>
+  <line class="non-scaling-stroke" x1="17.5" y1="4.5" x2="15" y2="4.5" stroke="#b6b6b6" stroke-miterlimit="10"/>
+  <polyline class="non-scaling-stroke" stroke="currentcolor" points="6 10 8 12 12 8" stroke="#ffa800" stroke-miterlimit="10" stroke-width="1"/>
 </svg>
 ```
 
-This keeps the strokes, if specified, from changing (otherwise it stays at 1px) when the SVG is scaled. That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
+This keeps the strokes, if specified, from changing (otherwise it stays at 1px) when the SVG is scaled. 
+
+### <em> ToDo: Add explanation about fill:none </em>
+
+That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
 
 And after all is said and done (and you have preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
 
@@ -127,9 +138,6 @@ And after all is said and done (and you have preprocessed via grunt-svgstore per
 The icon set on the left is scaling proportionately and on the right we are using the `vector-effect: non-scaling-stroke;`. In the end this might be more of a visual preference then a gottcha but, anytime you have some more control over how your icons look and behave, I feel like it's a win.
 <p data-height="265" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-
-
-## Gotcha Nine: TBD
 
 ## Gotcha Ten: TBD
 
