@@ -171,8 +171,7 @@ Assuming you have some sort of centralized template helper or utils system for g
 ```javascript
   templateHelpers = {
     svgIcon: function(iconName, iconClasses, iconAltText) {
-      var altTextElement;
-      altTextElement = iconAltText ? "<span class='visuallyhidden'>" + iconAltText + "</span>" : '';
+      var altTextElement = iconAltText ? "<span class='visuallyhidden'>" + iconAltText + "</span>" : '';
       iconClasses = iconClasses ? " " + iconClasses : '';
       return this.safe.call(this, "<svg aria-hidden='true' class='icon-new " + iconClasses + "'><use xlink:href='#" + iconName + "'></use></svg>" + altTextElement);
     },
