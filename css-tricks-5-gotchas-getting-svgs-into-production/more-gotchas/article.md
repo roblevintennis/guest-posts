@@ -143,7 +143,7 @@ The icon set on the left is scaling proportionately and on the right we are usin
 
 ## Gotcha Ten: Accessibility
 
-[![Accessible planet illustration](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/accessible-planet.svg "Accessible planet—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+[![Accessible planet illustration](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/accessible-planet-2.svg "Accessible planet—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
 With everything involved in getting your SVG icon system up-and-running, it's easy to overlook accessibility. That's a shame, because SVGs are inherently accessible, especially if compared to icon fonts which are known to not always play well with screen readers. At bare minimum, we need to sprinkle a bit of code to prevent any text embedded within our SVG icons from being announced by screen readers. Although we'd love to just add a `<title>` tag with alternative text and "call it a day", the folks at [Simply Accessible](http://simplyaccessible.com/article/7-solutions-svgs/) have found that Firefox and NVDA will not, in fact, announce the `<title>` text.
 
