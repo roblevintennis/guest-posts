@@ -130,7 +130,50 @@ The icon set on the left are scaling proportionately and on the right we using t
 
 ## Gotcha Nine: TBD
 
-## Gotcha Ten: TBD
+## Gotcha Ten: Accessibility
+
+[![Accessible planet illustration](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/accessible-planet.svg "Accessible planet—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
+
+With everything involved in getting your SVG icon system up-and-running, it's easy to overlook accessibility. That's a shame, because SVGs are inherently accessible, especially if compared to icon fonts which are known to not always play well with screen readers. At bare minimum, we need to sprinkle a bit of code to prevent any text embedded within our SVG icons from being announced by screen readers. Although we'd love to just add a `<title>` tag with alternative text and "call it a day", the folks at [Simply Accessible](http://simplyaccessible.com/article/7-solutions-svgs/) have found that Firefox and NVDA will not, in fact, announce the `<title>` text.
+
+Their recommendation is to apply the `aria-hidden="true"` attribute to the <svg> itself, and then add an adjacent `span` element with a `.visuallyhidden` class. The CSS for that visually hidden element will be hidden visually, but its text will available to the screen reader to announce. I'm bummed that it doesn't feel very semantic, but it may be a reasonable comprimise while support for the more intuitively reasonable `<title>` tag (and combinations of friends like `role`, `aria-labelledby`, etc.) work across both browser and screen reader implementations. To my mind, the `aria-hidden` on the SVG may be the biggest win, as we wouldn't want to inadvertantly set off the screen reader for, say, 50 icons on a page!
+
+Here's the general patterns borrowed but alterned a bit from Simply Accessible's [pen](https://codepen.io/svinkle/pen/XMjBNB):
+
+```html
+<a href="/somewhere/foo.html">
+    <svg class="icon icon-close" viewBox="0 0 32 32" aria-hidden="true">
+        <use xlink:href="#icon-close"></use>
+    </svg>
+    <span class="visuallyhidden">Close</span>
+</a>
+```
+
+As stated before, the two things interesting here are:
+
+1. `aria-hidden` attribute applied to prevent screen readers from announcing any text embedded within the SVG.
+2. The nasty but useful `visuallyhidden` span which WILL be announced by screen reader.
+
+Honestly, if you would rather just code this with the `<title>` tag et al approach, I wouldn't necessarily argue with you as it this does feel kludgy. But, as I show you the code we've used that follows, you could see going with this solution as a version 1 implementation, and then making that switch quite easily when support is better…
+
+Assuming you have some sort of centralized template helper or utils system for generating your `use xlink:href` fragments, it's quite easy to implement the above. We do this in Coffeescript, but since JavaScript is more universal, here's the code that gets resolved to:
+```javascript
+  templateHelpers = {
+    svgIcon: function(iconName, iconClasses, iconAltText) {
+      var altTextElement;
+      altTextElement = iconAltText ? "<span class='visuallyhidden'>" + iconAltText + "</span>" : '';
+      iconClasses = iconClasses ? " " + iconClasses : '';
+      return this.safe.call(this, "<svg aria-hidden='true' class='icon-new " + iconClasses + "'><use xlink:href='#" + iconName + "'></use></svg>" + altTextElement);
+    },
+...
+```
+
+This code is not meant to be used "copy pasta" style, as your system will likely have nuanced differences. But, it shows the general approach, and, the important bits are:
+
+* the `iconAltText`, which allows the caller to provide alternative text if it seems appropriate (e.g. the icon is not purely decorative)
+* the `aria-hidden="true"` which now, is always placed on the SVG element.
+
+As you can see, it'd be quite easy to later refactor this code to use the `<title>` approach usually recommended down the road, and at least the maintainence hit won't be bad should we choose to do so.
 
 ## Conclusion
 
