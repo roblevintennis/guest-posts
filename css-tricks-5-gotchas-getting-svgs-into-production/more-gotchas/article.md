@@ -178,11 +178,26 @@ Assuming you have some sort of centralized template helper or utils system for g
     },
 ...
 ```
+Here's the CSS for `.visuallyhidden`:
+
+```css
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+}
+```
 
 This code is not meant to be used "copy pasta" style, as your system will likely have nuanced differences. But, it shows the general approach, and, the important bits are:
 
 * the `iconAltText`, which allows the caller to provide alternative text if it seems appropriate (e.g. the icon is not purely decorative)
 * the `aria-hidden="true"` which now, is always placed on the SVG element.
+* the `.visuallyhidden` class will hide the element visually, while still making the text in that element available for screen readers
 
 As you can see, it'd be quite easy to later refactor this code to use the `<title>` approach usually recommended down the road, and at least the maintainence hit won't be bad should we choose to do so.
 
