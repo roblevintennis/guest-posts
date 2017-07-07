@@ -96,9 +96,8 @@ The other problem is more of a visual weight issue. As you scale a standard icon
 ### <em> ToDo: Look Into doing this in Sketch too </em>
 
 ### Prepping the Icon
-I primarily use Illustrator to create icons, but plenty of tools out there will work fine. First, size and align your icon to the pixel grid (⌘⌥Y in Illustrator for pixel preview, on a Mac) at the size you are going to be using it. I try to keep diagonals on 45° and adjust any curves or odd shapes to keep them from getting weird. No formula exists for this, just get it as close as you can to something you like.
 
-### <em> ToDo: Build Out a Bit More About the Design Side </em>
+I primarlily use Illustrator to create icons, but plenty of tools out there will work fine. This is just my workflow with one of those tools. I start creating an icon by focusing on what it needs to communicate not really anything technical. After I'm satasfied that it solves my visual needs I then start scaling and tweaking it to fit our technical needs. First, size and align your icon to the pixel grid (⌘⌥Y in Illustrator for pixel preview, on a Mac) at the size you are going to be using it. I try to keep diagonals on 45° and adjust any curves or odd shapes to keep them from getting weird. No formula exists for this, just get it as close as you can to something you like. Sometimes I scrap the whole idea if it's not gonna work at the size I need and start from scratch in a new direction, if it's the best visual solution but no one can identify it...it's not worth anything.
 
 ### Exporting AI
 I usually just use the Export As "SVG" option in Illustrator, I find it gives me a standard and minimal place to start. I use the Presentation Attributes setting and save it off. It will come out looking something like this:
@@ -114,7 +113,7 @@ I usually just use the Export As "SVG" option in Illustrator, I find it gives me
 </svg>
 ```
 
-I know you see a couple of 1/2 pixes in there, this is purposeful! The coordinates are placed on the 1/2 pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
+I know you see a couple of 1/2 pixes in there! Seems like there is a few schools of thought on this, I prefer to have the stroke line up to the pixel grid as that is what will display in the end. The coordinates are placed on the 1/2 pixel so that your 1px stroke is 1/2 on each side of the path. It looks something like this (in Illustrator):
 <img width="300" src="./images/pixel-view.png" title="Strokes on the Pixel Grid" alt="Strokes on the Pixel Grid" />
 
 
@@ -147,11 +146,7 @@ SVG
 </svg>
 ```
 
-This keeps the strokes, if specified, from changing (otherwise it stays at 1px) when the SVG is scaled. 
-
-### <em> ToDo: Add explanation about fill:none </em>
-
-That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
+This keeps the strokes, if specified, from changing (otherwise it stays at 1px) when the SVG is scaled. We also add `fill: none` to a class on the svg element where we control the stroke color as they will fill with `#000000` by default.That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
 
 And after all is said and done (and you have preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
 
@@ -172,7 +167,6 @@ The icon set on the left is scaling proportionately and on the right we are usin
 <p data-height="265" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
-## Gotcha Nine: TBD
 
 ## Gotcha Ten: Accessibility
 
