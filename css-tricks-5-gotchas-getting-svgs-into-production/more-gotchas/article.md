@@ -200,6 +200,7 @@ This code is not meant to be used "copy pasta" style, as your system will likely
 
 As you can see, it'd be quite easy to later refactor this code to use the `<title>` approach usually recommended down the road, and at least the maintainence hit won't be bad should we choose to do so.
 
-## Conclusion
+## Conclusions
 
-TBD
+The above challenges are just some of the ones we've encountered at [Mavenlink](https://medium.com/mavenlink-product-development) having had a comprehensive SVG icon system in our application for well over 2 years now. The mysterious nature of some of these is par for the course given our splintered world of various browsers, screen readers, and operating systems. But, perhaps these additional gotchas will help you and your team to better harden your SVG icon implementations!
+
