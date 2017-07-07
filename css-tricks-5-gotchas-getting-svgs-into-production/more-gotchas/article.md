@@ -93,8 +93,6 @@ Imagine you have a `height:10px; width:10px;` icon with some `1px` shapes and sc
  
 The other problem is more of a visual weight issue. As you scale a standard icon using fills, it scales proportionately...I can hear you saying "SVG's are supposed to that". Yes, but being able to control the stroke of your icons can help them feel more related and seen as more of a family. I like to think of it like using a <em>text</em> typeface for titling, rather than a display or <em>titling</em> typeface, you can do it but why when you could have a tight and sharp UI.
 
-### <em> ToDo: Look Into doing this in Sketch too </em>
-
 ### Prepping the Icon
 
 I primarlily use Illustrator to create icons, but plenty of tools out there will work fine. This is just my workflow with one of those tools. I start creating an icon by focusing on what it needs to communicate not really anything technical. After I'm satasfied that it solves my visual needs I then start scaling and tweaking it to fit our technical needs. First, size and align your icon to the pixel grid (⌘⌥Y in Illustrator for pixel preview, on a Mac) at the size you are going to be using it. I try to keep diagonals on 45° and adjust any curves or odd shapes to keep them from getting weird. No formula exists for this, just get it as close as you can to something you like. Sometimes I scrap the whole idea if it's not gonna work at the size I need and start from scratch in a new direction, if it's the best visual solution but no one can identify it...it's not worth anything.
