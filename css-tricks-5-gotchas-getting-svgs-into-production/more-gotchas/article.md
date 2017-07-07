@@ -44,7 +44,7 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 
 [![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-4.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
 
-In the original article, we recommended using SVG4Everybody as a means of shimming IE versions that don't support using an external SVG definitions file and then referencing via the `xlink:href` attribute. But, it turns out to be problemattic for performance to do so, and probably more kludgy as well, since it's based off user agent sniffing regex (or was last time I checked). A more "straight forward" approach, is to use [Ajax to pull in the SVG sprite](https://css-tricks.com/ajaxing-svg-sprite/). Here's a slice of our code that does this which is, essentially, the same as what you'll find in the linked article:
+In the original article, we recommended using [SVG4Everybody](https://github.com/jonathantneal/svg4everybody) as a means of shimming IE versions that don't support using an external SVG definitions file and then referencing via the `xlink:href` attribute. But, it turns out to be problemattic for performance to do so, and probably more kludgy as well, since it's based off user agent sniffing regex (or was last time I checked). A more "straight forward" approach, is to use [Ajax to pull in the SVG sprite](https://css-tricks.com/ajaxing-svg-sprite/). Here's a slice of our code that does this which is, essentially, the same as what you'll find in the linked article:
 
 ```javascript
   loadSprite = null;
