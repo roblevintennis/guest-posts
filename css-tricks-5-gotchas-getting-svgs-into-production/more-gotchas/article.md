@@ -43,11 +43,44 @@ As I'm boggled by this IE11 specific issue, I'd love to hear if you've encounter
 ## Gotcha Seven: IE Performance Boosts Replacing SVG4Everybody with Ajax Strategy
 
 [![Performance Issues](https://roblevintennis.github.io/guest-posts/css-tricks-5-gotchas-getting-svgs-into-production/more-gotchas/images/performance-issues-4.svg "Performance Issues—Illustrated by Rob Levin")](https://www.instagram.com/roblevintennis/)
-TBD but will address following:
-- Link to original css tricks article on using ajax instead of svg4everybody: https://css-tricks.com/ajaxing-svg-sprite/
-- base section off https://twitter.com/roblevintennis/status/661343623645032448 
-- Our work had ~15 sec IE11 page w/lots SVG icons & svg4everybody; used ur ajax er'thang-brought down to ~2 (for uncached first hit!)
-- so, it works if you can Ajax SUPER fast so no flash-of-no-svg and/or you're page is already throwing up a spinner while preloading a bunch of SPA views anyhow, otherwise, consider just dumping the inline SVG defs (but loosing the cachability win)
+
+In the original article, we recommended using SVG4Everybody as a means of shimming IE versions that don't support using an external SVG definitions file and then referencing via the `xlink:href` attribute. But, it turns out to be problemattic for performance to do so, and probably more kludgy as well, since it's based off user agent sniffing regex (or was last time I checked). A more "straight forward" approach, is to use [Ajax to pull in the SVG sprite](https://css-tricks.com/ajaxing-svg-sprite/). Here's a slice of our code that does this which is, essentially, the same as what you'll find in the linked article:
+
+```javascript
+  loadSprite = null;
+
+  (function() {
+    var loading = false;
+    return loadSprite = function(path) {
+      if (loading) {
+        return;
+      }
+      return document.addEventListener('DOMContentLoaded', function(event) {
+        var xhr;
+        loading = true;
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', path, true);
+        xhr.responseType = 'document';
+        xhr.onload = function(event) {
+          var el, style;
+          el = xhr.responseXML.documentElement;
+          style = el.style;
+          style.display = 'none';
+          return document.body.insertBefore(el, document.body.childNodes[0]);
+        };
+        return xhr.send();
+      });
+    };
+  })();
+
+  module.exports = {
+    loadSprite: loadSprite,
+  };
+```
+
+The interesting part about all this for us, was that—on our icon heavy pages—we went from ~15 seconds down to ~1-2 seconds (for first uncached page hit) in IE11.
+
+Something to consider about using the Ajax approach, you'll need to potentially deal with a "flash of no SVG" until the HTTP request is resolved. But, in cases where you already have a heavy initial loading SPA style application that throws up a spinner or progress indicator, that might be a sunk cost. Alternatively, you may wish to just go ahead and inline your SVG definition / sprite and take the cache hit for better percieved performance. If so, measure just how much your increasing the payload.
 
 ## Gotcha Eight: Designing Non-Scaling Stroke Icons
 
