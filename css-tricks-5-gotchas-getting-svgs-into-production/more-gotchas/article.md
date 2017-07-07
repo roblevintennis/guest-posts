@@ -177,7 +177,7 @@ Assuming you have some sort of centralized template helper or utils system for g
     },
 ...
 ```
-Here's the CSS for `.visuallyhidden`:
+Here's the CSS for `.visuallyhidden`. If you're wondering why we're doing it this particular why and not, say, `display: none`, or other familiar means, see [Chris Coyier's article](https://css-tricks.com/places-its-tempting-to-use-display-none-but-dont/) which explains this in depth:
 
 ```css
 .visuallyhidden {
