@@ -225,6 +225,15 @@ This code is not meant to be used "copy pasta" style, as your system will likely
 
 As you can see, it'd be quite easy to later refactor this code to use the `<title>` approach usually recommended down the road, and at least the maintainence hit won't be bad should we choose to do so.
 
+## Bonus Gotcha: make viewBox width and height integers or scaling gets funky
+
+If you have an SVG icon that you export with a resulting viewBox like: `viewBox="0 0 100 86.81"`, you may have issues if you use `transform: scale`. For example, if your generally setting the width and height equal as is typical (e.g. 16px x 16px), you might expect that the SVG should just center itself in it's containing box, especially if your using the defaults for `preserveAspectRatio`. But, if you attempt to scale it at all, you'll start to notice clipping.
+
+The following pen shows the first three icons getting clipped. This particular icon (it's defined as a `<symbol>` and then referenced using the `xlink:href` strategy we've already went over), has a viewBox with non-integer height of 86.81, and thus we see the clipping on the sides. The next 3 examples (icons 4-6), have integer width and heights (the third argument to viewBox is width, fourth is height), and does not clip.
+
+<p data-height="265" data-theme-id="light" data-slug-hash="vZzwjP" data-default-tab="html,result" data-user="roblevin" data-embed-version="2" data-pen-title="SVG Icons: Scale Clip Test 2" class="codepen">See the Pen <a href="https://codepen.io/roblevin/pen/vZzwjP/">SVG Icons: Scale Clip Test 2</a> by Rob Levin (<a href="https://codepen.io/roblevin">@roblevin</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
 ## Conclusions
 
 The above challenges are just some of the ones we've encountered at [Mavenlink](https://medium.com/mavenlink-product-development) having had a comprehensive SVG icon system in our application for well over 2 years now. The mysterious nature of some of these is par for the course given our splintered world of various browsers, screen readers, and operating systems. But, perhaps these additional gotchas will help you and your team to better harden your SVG icon implementations!
