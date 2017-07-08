@@ -229,6 +229,7 @@ As you can see, it'd be quite easy to later refactor this code to use the `<titl
 
 If you have an SVG icon that you export with a resulting viewBox like: `viewBox="0 0 100 86.81"`, you may have issues if you use `transform: scale`. For example, if your generally setting the width and height equal as is typical (e.g. 16px x 16px), you might expect that the SVG should just center itself in it's containing box, especially if your using the defaults for `preserveAspectRatio`. But, if you attempt to scale it at all, you'll start to notice clipping.
 
+In the following Adobe Illustrator screen capture, you see that "Snap to Grid" and "Snap to Pixel" are both selected:
 ![Illustrator Snap & Align to Pixel Grid](./images/ai-align-to-pixel-snap-to-grid.jpeg "Align and Snap to Pixel Grid")
 
 The following pen shows the first three icons getting clipped. This particular icon (it's defined as a `<symbol>` and then referenced using the `xlink:href` strategy we've already went over), has a viewBox with non-integer height of 86.81, and thus we see the clipping on the sides. The next 3 examples (icons 4-6), have integer width and heights (the third argument to viewBox is width, fourth is height), and does not clip.
