@@ -234,7 +234,7 @@ As you can see, it'd be quite easy to later refactor this code to use the `<titl
       return this.safe.call(this, "<svg " + aria + " class='icon-new " + iconClasses + "'><use xlink:href='#" + iconName + "'>" + titleElement + "</use></svg>");
 ```
 
-So, in this version, if the caller passes alternative text in, we do NOT hide the SVG, and, we also do not use the visually hidden span technique, while adding the `role` and `aria-label` attributes to the SVG. This feels much cleaner, but the jury is out on whether screen readers are going to support this approach as well as using the visually hidden span technique. Maybe _the experts_ (Amelia and Simply Accessible folks), will chime in on the comments :)
+So, in this version (credit to [Amelia](https://github.com/AmeliaBR) for the aria part!), if the caller passes alternative text in, we do NOT hide the SVG, and, we also do not use the visually hidden span technique, while adding the `role` and `aria-label` attributes to the SVG. This feels much cleaner, but the jury is out on whether screen readers are going to support this approach as well as using the visually hidden span technique. Maybe _the experts_ (Amelia and Simply Accessible folks), will chime in on the comments :)
 
 ## Bonus Gotcha: make viewBox width and height integers or scaling gets funky
 
