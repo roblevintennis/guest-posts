@@ -197,11 +197,15 @@ Assuming you have some sort of centralized template helper or utils system for g
   templateHelpers = {
     svgIcon: function(iconName, iconClasses, iconAltText) {
       var altTextElement = iconAltText ? "<span class='visuallyhidden'>" + iconAltText + "</span>" : '';
+      var titleElement = iconTitle ? "<title>" + iconTitle + "</title>" : '';
       iconClasses = iconClasses ? " " + iconClasses : '';
-      return this.safe.call(this, "<svg aria-hidden='true' class='icon-new " + iconClasses + "'><use xlink:href='#" + iconName + "'></use></svg>" + altTextElement);
+      return this.safe.call(this, "<svg aria-hidden='true' class='icon-new " + iconClasses + "'><use xlink:href='#" + iconName + "'>" + titleElement + "</use></svg>" + altTextElement);
     },
 ...
 ```
+
+Why are we putting the `<title>` tag as a child of `<use>` instead of the `<svg>`? According to [Amelia Bellamy-Royds](https://github.com/AmeliaBR)(Invited Expert developing SVG & ARIA specs @w3c. Author of SVG books from @oreillymedia), you will get tooltips in more browsers.
+
 Here's the CSS for `.visuallyhidden`. If you're wondering why we're doing it this particular why and not, say, `display: none`, or other familiar means, see [Chris Coyier's article](https://css-tricks.com/places-its-tempting-to-use-display-none-but-dont/) which explains this in depth:
 
 ```css
@@ -223,7 +227,14 @@ This code is not meant to be used "copy pasta" style, as your system will likely
 * the `aria-hidden="true"` which now, is always placed on the SVG element.
 * the `.visuallyhidden` class will hide the element visually, while still making the text in that element available for screen readers
 
-As you can see, it'd be quite easy to later refactor this code to use the `<title>` approach usually recommended down the road, and at least the maintainence hit won't be bad should we choose to do so.
+As you can see, it'd be quite easy to later refactor this code to use the `<title>` approach usually recommended down the road, and at least the maintainence hit won't be bad should we choose to do so. The relevant refactor changes would likely be similar to:
+
+```javascript
+      var aria = iconAltText ? 'role="img" aria-label="' + iconAltText + '"' : 'aria-hidden="true"';
+      return this.safe.call(this, "<svg " + aria + " class='icon-new " + iconClasses + "'><use xlink:href='#" + iconName + "'>" + titleElement + "</use></svg>");
+```
+
+So, in this version, if the caller passes alternative text in, we do NOT hide the SVG, and, we also do not use the visually hidden span technique, while adding the `role` and `aria-label` attributes to the SVG. This feels much cleaner, but the jury is out on whether screen readers are going to support this approach as well as using the visually hidden span technique. Maybe _the experts_ (Amelia and Simply Accessible folks), will chime in on the comments :)
 
 ## Bonus Gotcha: make viewBox width and height integers or scaling gets funky
 
