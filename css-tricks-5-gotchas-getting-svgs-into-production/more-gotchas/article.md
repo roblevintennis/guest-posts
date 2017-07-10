@@ -144,7 +144,7 @@ SVG
 </svg>
 ```
 
-This keeps the strokes, if specified, from changing (otherwise it stays at 1px) when the SVG is scaled. We also add `fill: none` to a class on the svg element where we control the stroke color as they will fill with `#000000` by default.That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
+This keeps the strokes, if specified, from changing (in other words, the strokes will remain at 1px even if the overall SVG is scaled) when the SVG is scaled. We also add fill: none to a class in our CSS script where we also control the stroke color as they will fill with `#000000` by default.That's it! Now, you have beautiful pixel adherent strokes that will maintain stroke width!
 
 And after all is said and done (and you have preprocessed via grunt-svgstore per the first article), your svg will look like this in the defs file:
 
@@ -161,7 +161,7 @@ And after all is said and done (and you have preprocessed via grunt-svgstore per
 
 ### CodePen Example
 
-The icon set on the left is scaling proportionately and on the right we are using the `vector-effect: non-scaling-stroke;`. In the end this might be more of a visual preference then a gottcha but, anytime you have some more control over how your icons look and behave, I feel like it's a win.
+The icon set on the left is scaling proportionately and on the right we are using the `vector-effect: non-scaling-stroke;`. If your noticing that your resized SVG icon's strokes are starting to look _out of control_, the above technique will give you the ability to lock those babies down.
 <p data-height="265" data-theme-id="light" data-slug-hash="QgMBRB" data-default-tab="result" data-user="Rumbleish" data-embed-version="2" data-pen-title="SVG Icons: Non-Scaling Stroke " class="codepen">See the Pen <a href="https://codepen.io/Rumbleish/pen/QgMBRB/">SVG Icons: Non-Scaling Stroke </a> by Chris Rumble (<a href="https://codepen.io/Rumbleish">@Rumbleish</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
