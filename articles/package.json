@@ -6,5 +6,8 @@
   "author": "Rob Levin",
   "license": "MIT",
   "private": true,
-  "workspaces": ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular"]
+  "workspaces": ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular"],
+  "scripts": {
+    "start:react": "yarn workspace littlebutton-react start"
+  }
 }

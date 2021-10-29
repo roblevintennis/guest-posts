@@ -6,7 +6,7 @@ Your mission should you decide to accept it is to build a Button component in fo
 
 ## Let's go monorepo!
 
-We're going to set up a tiny `yarn workspaces` monorepo.
+We're going to set up a tiny [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) based monorepo.
 
 ### package.json
 
@@ -203,7 +203,9 @@ But we want to leverage [CSS Modules](https://github.com/css-modules/css-modules
 touch button.module.css
 ```
 
-The Webpack configuration that `create-react-app` ships with is set up to consider anything with the `*.module.[sc]ss` extension as a CSS modules. With that, open up that `button.module.css` and write:
+The Webpack configuration that `create-react-app` ships with is set up to consider anything with the `*.module.[sc]ss` extension as a CSS modules. See the [React CSS Modules docs](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/#buttonmodulecss). 
+
+With that, open up that `button.module.css` and write:
 
 ```css
 .btn {
@@ -242,6 +244,27 @@ yarn start
 
 If all went well, you should see that same generic button, but with `hotpink` text. Mind blown? Didn't think so — the button's too ugly for you…I get it. But we're doing UDD—ugly-driven development and, sorry, but we're not make things look pretty until the very end. In fact, we're done with the React setup for now. Onwards.
 
+## Update Monorepo
+
+Before we move on to the next framework, let's move back up to our top-level monorepo directory and update its `package.json` with:
+
+```json
+{
+  "name": "littlebutton",
+  "version": "1.0.0",
+  "description": "toy project",
+  "main": "index.js",
+  "author": "Rob Levin",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular"],
+  "scripts": {
+    "start:react": "yarn workspace littlebutton-react start"
+  }
+}
+```
+
+All we've added is the `scripts` section. By adding the `start:react` script, we can now run `yarn start:react` from our top-level directory and it will fire up the project we just built in `./littlebutton-react` — super convenient for later when we want to be able to fire these up at will without having to descend into the workspace directories.
 ## Vue &amp; Svelte
 
 So we'll tackle Vue and Svelte next. It turns out that we can take a pretty similar approach for both of these as they use [Single File Components](https://vuejs.org/v2/guide/single-file-components.html) aka [SFC]. Basically, you get to mix HTML, CSS, and JavaScript all into one single file. Whether you like SFC or not, it's certainly adequate enough for building out presentational or primitive UI components.
