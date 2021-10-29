@@ -264,7 +264,9 @@ Before we move on to the next framework, let's move back up to our top-level mon
 }
 ```
 
-All we've added is the `scripts` section. By adding the `start:react` script, we can now run `yarn start:react` from our top-level directory and it will fire up the project we just built in `./littlebutton-react` — super convenient for later when we want to be able to fire these up at will without having to descend into the workspace directories.
+Now in your terminal run `yarn` from top-level directory to get the monorepo hoisted dependencies installed.
+
+All that was added was the `scripts` section, and by adding that `start:react` script, we can now run `yarn start:react` from our top-level directory and it will fire up the project we just built in `./littlebutton-react` — super convenient! 
 ## Vue &amp; Svelte
 
 So we'll tackle Vue and Svelte next. It turns out that we can take a pretty similar approach for both of these as they use [Single File Components](https://vuejs.org/v2/guide/single-file-components.html) aka [SFC]. Basically, you get to mix HTML, CSS, and JavaScript all into one single file. Whether you like SFC or not, it's certainly adequate enough for building out presentational or primitive UI components.
