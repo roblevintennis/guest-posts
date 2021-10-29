@@ -1,0 +1,10 @@
+{
+  "name": "littlebutton",
+  "version": "1.0.0",
+  "description": "toy project",
+  "main": "index.js",
+  "author": "Rob Levin",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular"]
+}
