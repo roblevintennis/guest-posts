@@ -6,7 +6,10 @@
   "author": "Rob Levin",
   "license": "MIT",
   "private": true,
-  "workspaces": ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular"],
+  "workspaces":  ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular"],
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "~4.5.0"
+  },
   "scripts": {
     "start:react": "yarn workspace littlebutton-react start"
   }
