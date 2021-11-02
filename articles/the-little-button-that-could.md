@@ -84,7 +84,6 @@ Once you've done that for all the workspaces your directory structure should loo
 ├── littlebutton-css
 │   └── package.json
 ├── littlebutton-react
-├── littlebutton-svelte
 └── package.json
 ```
 
@@ -364,7 +363,9 @@ let withSynchronizedStyles = vue.replace(styleRegex, `<style module>\n${css}\n</
 fs.writeFileSync("./src/components/Button.vue", withSynchronizedStyles, "utf8");
 ```
 
-And then add the following to the `littlebutton-vue/package.json` scripts:
+So there's a bit more complexity in this NodeJS script, but using `replace` to copy text between opening and closing `style` tags via regex isn't too bad.
+
+Let's then add the following to the `littlebutton-vue/package.json` scripts:
 
 
 ```json
@@ -385,12 +386,62 @@ Run the Vue app again with `yarn serve` and verify you get the expected results 
 
 ## Svelte
 
-So we'll tackle Vue and Svelte next. It turns out that we can take a pretty similar approach for both of these as they use [Single File Components](https://vuejs.org/v2/guide/single-file-components.html) aka [SFC]. Basically, you get to mix HTML, CSS, and JavaScript all into one single file. Whether you like SFC or not, it's certainly adequate enough for building out presentational or primitive UI components.
+Per the [Svelte docs](https://svelte.dev/), we will kick off our `littlebutton-svelte` with the following from the monorepo's top-level directory:
 
-- steps to generate vue app
-- copystyles node script
-- steps to generate svelte app
-- copystyles node script
+```shell
+npx degit sveltejs/template littlebutton-svelte
+cd littlebutton-svelte
+yarn && yarn dev
+```
+Confirm you can hit the hello world at http://localhost:5000. Then, update `littlebutton-svelte/src/App.svelte`:
+
+```svelte
+<script>
+	import Button from './Button.svelte';
+</script>
+<main>
+	<Button>Go</Button>
+</main>
+```
+
+And `littlebutton-svelte/src/Button.svelte`: 
+```svelte
+<button class="btn">
+  <slot></slot>
+</button>
+<script>
+</script>
+<style>
+  .btn {
+    color: saddlebrown;
+  }
+</style>
+```
+
+
+### Copy the CSS
+
+Now we're going to write a similar node script we did for the React implementation that simply copies our `littlebutton-css/css/button.css` into our `Button.vue`. As mentioned, this component is a SFC so we're going to have to do this slightly differently using a simple [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
+
+Add the following little NodeJS script to `littlebutton-vue/copystyles.js`:
+
+```js
+const fs = require("fs");
+let css = fs.readFileSync("../littlebutton-css/css/button.css", "utf8");
+const svelte = fs.readFileSync("./src/Button.svelte", "utf8");
+const styleRegex = /<style>([\s\S]*?)<\/style>/;
+let withSynchronizedStyles = svelte.replace(styleRegex, `<style>\n${css}\n</style>`);
+fs.writeFileSync("./src/Button.svelte", withSynchronizedStyles, "utf8");
+```
+
+It's really quite similar to the copy script we used with Vue, isn't it? We'll just add the same `package.json` script:
+
+```json
+   "syncStyles": "node copystyles.js",
+```
+
+And then run `yarn syncStyles && yarn dev`. If all worked out, again, we have a button with pink text.
+
 
 ## Angular
 - steps to generate angular app
