@@ -6,7 +6,7 @@ Your mission should you decide to accept it is to build a Button component in fo
 
 ## Let's go monorepo!
 
-We're going to set up a tiny [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) based monorepo.
+We're going to set up a tiny [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) based monorepo. So create a top-level directory to house this project and `cd` into it.
 
 ### package.json
 
@@ -41,19 +41,13 @@ That gives us a `package.json` with something like:
 
 ### Workspaces
 
-Now let's create the workspaces:
+Now let's start by creating our first workspace:
 
 ```shell
-mkdir -p ./littlebutton-react littlebutton-svelte littlebutton-angular littlebutton-css
-$ tree . # you don't need to do this but just showing you what things should look like:
-├── littlebutton-angular
-├── littlebutton-css
-├── littlebutton-react
-├── littlebutton-svelte
-├── package.json
+mkdir -p ./littlebutton-css
 ```
 
-Now add these two lines to your top-level `package.json` so we keep the monorepo itself private, and have our workspaces setup:
+Now add these two lines to your monorepo’s top-level `package.json` so we keep the monorepo itself private,. It will also declare our workspaces:
 
 ```json
   ...
@@ -80,14 +74,12 @@ success Saved package.json
 Once you've done that for all the workspaces your directory structure should look like:
 
 ```shell
-├── littlebutton-angular
 ├── littlebutton-css
 │   └── package.json
-├── littlebutton-react
 └── package.json
 ```
 
-So we've only got a `package.json` in the CSS package at this point. That's because we'll be generating our framework implementations with tools like `create-react-app` which want to generate the `package.json` for you. We will have to remember to name the `package.json` with the same name as our `workspaces` previously.
+So we've only created the CSS package at this point. That's because we'll be generating our framework implementations with tools like `create-react-app` which will generate a `package.json` and project directory for you. We will have to remember that the name we choose for these generated projects must match the name we’ve specified in the `package.json` for our `workspaces` earlier.
 
 ## HTML &amp CSS
 
@@ -418,7 +410,6 @@ And `littlebutton-svelte/src/Button.svelte`:
 </style>
 ```
 
-
 ### Copy the CSS
 
 Now we're going to write a similar node script we did for the React implementation that simply copies our `littlebutton-css/css/button.css` into our `Button.vue`. As mentioned, this component is a SFC so we're going to have to do this slightly differently using a simple [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
@@ -442,40 +433,146 @@ It's really quite similar to the copy script we used with Vue, isn't it? We'll j
 
 And then run `yarn syncStyles && yarn dev`. If all worked out, again, we have a button with pink text.
 
+If this is starting to get repetitive all I have to say &ldquo;welcome to my world&rdquo; — you see, what I'm showing you here, is essentially the same process I've been using to build up [AgnosticUI](https://github.com/AgnosticUI/agnosticui)!
 
 ## Angular
-- steps to generate angular app
-- copystyles node script
 
-## Make that button pop!
+Once again, from the monorepo's top-level directory, install Angular (if needed) and [create an Angular app](https://angular.io/guide/setup-local). If we were creating a full-blown UI library we'd likely use `ng generate library` or even [nx](https://nx.dev/l/a/tutorial/08-create-libs), but to keep things straight-forward we'll just set up a boilerplate Angular app as follows:
 
-- Grab some common styles
-https://github.com/AgnosticUI/agnosticui/blob/master/agnostic-css/css-dist/common.concat.css
+```shell
+npm install -g @angular/cli # unless you already have installed
+ng new littlebutton-angular # choose no for routing and CSS
+? Would you like to add Angular routing? (y/N) N
+❯ CSS 
+  SCSS   [ https://sass-lang.com/documentation/syntax#scss ] 
+  Sass   [ https://sass-lang.com/documentation/syntax#the-indented-syntax ] 
+  Less   [ http://lesscss.org ]
 
-- Grab some button styles
-https://raw.githubusercontent.com/AgnosticUI/agnosticui/master/agnostic-css/button.css
+cd littlebutton-angular && ng serve --open
+```
 
-- Add to index.html in css package and then run the copystyles
+With Angular setup confirmed, let's update some files:
 
-- Show setting up a CSS modules for React, and/or a SFC for VUE/Svelte, and View Encapsulation for Angular
+- Delete `src/app.component.spec.ts` for now
+- Add a button component:
+
+In `src/components/button.component.ts`:
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'little-button',
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.css'],
+})
+export class ButtonComponent {}
+```
+
+In `src/components/button.component.html`:
+```html
+<button class="btn">Go</button>
+```
+
+In `src/components/button.component.css`:
+```css
+.btn {
+  color: fuchsia;
+}
+```
+
+- Add the button to the app module
+
+In `src/app/app.module.ts`:
+
+```ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppComponent } from './app.component';
+import { ButtonComponent } from '../components/button.component';
+
+@NgModule({
+  declarations: [AppComponent, ButtonComponent],
+  imports: [BrowserModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Replace `src/app/app.component.ts` with:
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {}
+```
+
+Replace `src/app/app.component.html` with:
+```html
+<main>
+  <little-button>Go</little-button>
+</main>
+```
+
+### Copy the CSS
+
+Again, we want to copy over the CSS so create the following NodeJS script `copystyles.js`:
+
+```js
+const fs = require("fs");
+let css = fs.readFileSync("../littlebutton-css/css/button.css", "utf8");
+fs.writeFileSync("./src/components/button.component.css", css, "utf8");
+```
+
+Angular turns out to be pretty simple as it uses [ViewEncapsulation](https://angular.io/guide/view-encapsulation) defaulting to `emulate` which emulates:
+
+> …the behavior of shadow DOM by preprocessing (and renaming) the CSS code to effectively scope the CSS to the component's view.
+
+Basically, this means we can literally just copy over `button.css` and use it as such.
+
+Now just update the `package.json` adding two lines in the `scripts` section:
+
+```json
+    "start": "yarn syncStyles && ng serve",
+    "syncStyles": "node copystyles.js",
+```
+
+With that, let's run `yarn start` and verify our button with `fuchsia` text color renders.
+
+## What have we just done?
+
+Let's take a break from coding and think about the bigger picture and what we've just done. Basically, we've set up a system where any changes to our CSS package's `button.css` will get copied over into all the framework implementions as a result of our `copystyles.js` NodeJS scripts. Further, we've incorporated idiomatic conventions for each of the frameworks:
+
+- `SFC` for Vue and Svelte
+- `CSS Modules` for React (and Vue within the SFC `<style module>` setup)
+- `ViewEncapsulation` for Angular
+
+Of course I state the obvious that these aren't the only ways to do CSS in each of the above frameworks (e.g. CSS-in-JS is a popular choice), but, they are certainly accepted practices and are working quite well for our greater goal—to have a single CSS source of truth to drive all framework implementations.
+
+If for some reason, for example, our button was in use and our design team decided we wanted to change from `4px` to `3px` `border-radius`, we could update the one file, and any separate implementations would stay synced.
+
+This is compelling if you have a polyglot team of developers that enjoy working in multiple frameworks, or, say an offshore team (that's 3x productive in Angular) that's being tasked to buidl a back-office application, but your flagship product was built in React. Or, you're building an interim Admin console and you'd love to experiement with using Vue or Svelte. You get the picture.
+
+
+
+Question for Chris — should we make this a mega long article or break it up? It would be nice to continue along with these buttons and address the following outline:
+
+Building out button variants (e.g. sizes, shapes, color modes, etc.)
+https://raw.githubusercontent.com/AgnosticUI/agnosticui/master/agnostic-css/button.css — and I would basically show reader how to create a useful subset of those buttons
+Grab some common styles from: https://github.com/AgnosticUI/agnosticui/blob/master/agnostic-css/css-dist/common.concat.css and incorporate some CSS custom properties
+Point out how theming the buttons might work
 
 ## Conclusion
 
-- Pimp AgnosticUI
-- Bring up the shortcomings of copying from one workspace to another e.g. copystyles from `littlebutton-css/css/button.css` to `littlebutton-angular/foo/bar/baz/button.css`. Ask if they can think of any better alternatives that don't wreck the KISS thing we got goin' on.
+Hopefully I’ve whet your appetite and you’re intrigued by the idea of creating UI component libraries and/or design systems that are not tied to a particular framework. Do you remember the venerable TodoMVC project and how many framework implementations were created for this popular JavaScript exercise? Well, maybe we can do the same for a nice UI component library—build some nice primitives that are easily themable with CSS properties so we can get our systems kicked off more quickly? That’s the vision for AgnosticUI, so if you feel compelled to get involved, the project is still very early and approachable and I’m certainly looking for contributors. Plus, if you’ve went through the above exercise, you basically now know the infrastructure being used!
+## Make that button pop!
 
-
-
-
-A few years ago I authored a React-based &rdquo;Design System&ldquo; for the company I worked at and was feeling quite pleased with myself for doing it in just a few months. But then, within a couple of days of each other I 1. played with the Svelte playground, and 2. discussed with our new Singapore team's lead that his team was 2x productive in Angular then React. It immediately occured to me that I had written, yet another component library (I build a lot of these!)…but one that was absolutely coupled to React! So, if I wanted to preserve our newly codified brand design, I couldn't possibly do any pilot projects with my newly discovered Svelte, nor could the Singapore build an entirely orthogonal back-office application unrelated to our flagship product in what was familiar to them—Angular. I realized then and there that I never wanted to build another coupled component library, and, if I was going to build out another one of these, it was going to need to somehow be agnostic to frameworks.
-
-One approach I could have taken was to fully invest myself in [web components](...) and I'd heard of [Ionic's compiler](...), but, it seemed at the time I was investigating things hard to get React to properly propogate events and what not. In any event, I elected to let it simmer and come back to it later when the time was right.
-
-I'd used [CSS Modules](...) with React a lot in my career, and it occured to my that besides CSS Modules _composition_ technique, my components were pretty much just vanilla CSS. And I'd been moving towards using straight-up CSS with sprinkles of [PostCSS] processing in efforts to &ldquo;code towards a standard&rdquo;. I then learned the popular [SFC](...) approach that Svelte uses and how the CSS lives in the same file as the JavaScript. This didn't seem to me so antagonistic to how I was using CSS Modules (my `composes: foo from path/to/cssfile.css` was already pretty decoupled as I'd have one purely CSS component file, and another purely CSS modules composes file). So, I started to wonder if there was a way to go back to the days of designing UI components in pure HTML and CSS, and only then port those primitives over into a framework. Couldn't I continue to use CSS modules for React, and then simply copy the component CSS into my SFC? Then I learned Vue also uses SFC.
-
-So then I wrote a little [NodeJS](...) script the simply copied styles into the SFC as a test. Kind of primitive, but it totally worked. And from this little experiment ignited my passion project [AgnosticUI](...). Let's replicate this technique to build a button component that works in HTML, React, Vue, Angular, and Svelte. We'll start in vanilla HTML/CSS.
-
-EXAMPLE CODEPEN LINK
 
 <p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 
