@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start:react": "yarn workspace littlebutton-react start",
-    "start:vue": "yarn workspace littlebutton-vue start",
+    "start:vue": "yarn workspace littlebutton-vue serve",
     "start:svelte": "yarn workspace littlebutton-svelte dev",
     "start:angular": "yarn workspace littlebutton-angular start"
   }

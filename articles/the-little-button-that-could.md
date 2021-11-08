@@ -357,10 +357,10 @@ fs.writeFileSync("./src/components/Button.vue", withSynchronizedStyles, "utf8");
 
 So there's a bit more complexity in this NodeJS script, but using `replace` to copy text between opening and closing `style` tags via regex isn't too bad.
 
-Let's then add the following to the `littlebutton-vue/package.json` scripts:
-
+Let's then add the following two scripts to the `littlebutton-vue/package.json` scripts clause:
 
 ```json
+"serve": "yarn syncStyles && vue-cli-service serve",
 "syncStyles": "node copystyles.js",
 ```
 
@@ -580,7 +580,7 @@ Let's move back up to our top-level monorepo directory and update its `package.j
       ...
       "scripts": {
         "start:react": "yarn workspace littlebutton-react start",
-        "start:vue": "yarn workspace littlebutton-vue start",
+        "start:vue": "yarn workspace littlebutton-vue serve",
         "start:svelte": "yarn workspace littlebutton-svelte dev",
         "start:angular": "yarn workspace littlebutton-angular start"
       },
