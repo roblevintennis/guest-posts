@@ -396,7 +396,18 @@ Confirm you can hit the hello world at http://localhost:5000. Then, update `litt
 </main>
 ```
 
-And `littlebutton-svelte/src/Button.svelte`: 
+Also, in `littlebutton-svelte/src/main.js` you'll want to remove the `name` prop so it looks like this:
+```js
+import App from './App.svelte';
+
+const app = new App({
+  target: document.body
+});
+
+export default app;
+```
+
+And finally, add `littlebutton-svelte/src/Button.svelte`: 
 ```svelte
 <button class="btn">
   <slot></slot>
@@ -410,11 +421,12 @@ And `littlebutton-svelte/src/Button.svelte`:
 </style>
 ```
 
+One last thing, Svelte appears to name your app: `"name": "svelte-app"` in the `package.json`. Change that to `"name": "littlebutton-svelte"` (so it's consistent with our workspace name).
 ### Copy the CSS
 
 Now we're going to write a similar node script we did for the React implementation that simply copies our `littlebutton-css/css/button.css` into our `Button.vue`. As mentioned, this component is a SFC so we're going to have to do this slightly differently using a simple [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
 
-Add the following little NodeJS script to `littlebutton-vue/copystyles.js`:
+Add the following little NodeJS script to `littlebutton-svelte/copystyles.js`:
 
 ```js
 const fs = require("fs");
@@ -428,7 +440,8 @@ fs.writeFileSync("./src/Button.svelte", withSynchronizedStyles, "utf8");
 It's really quite similar to the copy script we used with Vue, isn't it? We'll just add the same `package.json` script:
 
 ```json
-   "syncStyles": "node copystyles.js",
+    "dev": "yarn syncStyles && rollup -c -w",
+    "syncStyles": "node copystyles.js",
 ```
 
 And then run `yarn syncStyles && yarn dev`. If all worked out, again, we have a button with pink text.
@@ -559,21 +572,109 @@ If for some reason, for example, our button was in use and our design team decid
 
 This is compelling if you have a polyglot team of developers that enjoy working in multiple frameworks, or, say an offshore team (that's 3x productive in Angular) that's being tasked to buidl a back-office application, but your flagship product was built in React. Or, you're building an interim Admin console and you'd love to experiement with using Vue or Svelte. You get the picture.
 
+## Update Monorepo
+
+Let's move back up to our top-level monorepo directory and update its `package.json` `scripts` section with the following so we can kick any framework implementation without `cd`'ing:
+
+```json
+      ...
+      "scripts": {
+        "start:react": "yarn workspace littlebutton-react start",
+        "start:vue": "yarn workspace littlebutton-vue start",
+        "start:svelte": "yarn workspace littlebutton-svelte dev",
+        "start:angular": "yarn workspace littlebutton-angular start"
+      },
+```
+
+_As you try to run these scripts you may encounter an issue with react complaining that `a different version of webpack was detected higher up in the tree`. This is likely due to Vue having a slightly higher webpack version. Since this is just an exercise, I would recomend doing the following from `littlebutton-react/` directory:_
+
+```shell
+printf "SKIP_PREFLIGHT_CHECK=true" > .env
+```
+
+## Button Styles
+
+Let's update our button's base styles with something acceptable for a neutral default button, and then fire up each of the 4 framework implementations to confirm the changes worked.
+
+Update `littlebutton-css/css/button.css` with:
+
+```css
+.btn {
+  --button-dark: #333333;
+  --button-line-height: 1.25rem;
+  --button-font-size: 1rem;
+  --button-light: #e9e9e9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  user-select: none;
+  appearance: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition-property: all;
+  transition-duration: 200ms;
+  color: var(--button-dark);
+  background-color: var(--button-light);
+  border-color: var(--button-light);
+  border-style: solid;
+  border-width: 1px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif;
+  font-weight: 400;
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
+  padding-block-start: 0.5rem;
+  padding-block-end: 0.5rem;
+  padding-inline-start: 0.75rem;
+  padding-inline-end: 0.75rem;
+  text-decoration: none;
+  text-align: center;
+  outline: none;
+}
+
+@media (prefers-reduced-motion) {
+  .btn {
+    transition-duration: 0.001ms !important;
+  }
+}
+```
+
+## Homework
+
+If you're the type that likes to figure things out on your own or enjoys assignments, here are a couple of ideas:
+
+### Button States
+
+The above button styles are not accounting for various states a button can be in. I believe that's a good
+first exercise for you to attempt. Start with this:
 
 
-Question for Chris — should we make this a mega long article or break it up? It would be nice to continue along with these buttons and address the following outline:
+```css
+/* You should really implement the following states but I will leave it
+as an exercise for you to decide how to and what values to use. */
+.btn:focus {
+  /* If you elect to remove the outline, please ensure you replace it with another proper
+  affordance and also research how to use transparent outlines to support windows high contrast */
+}
+.btn:hover { }
+.btn:visited { }
+.btn:active { }
+.btn:disabled { }
+```
 
-Building out button variants (e.g. sizes, shapes, color modes, etc.)
-https://raw.githubusercontent.com/AgnosticUI/agnosticui/master/agnostic-css/button.css — and I would basically show reader how to create a useful subset of those buttons
-Grab some common styles from: https://github.com/AgnosticUI/agnosticui/blob/master/agnostic-css/css-dist/common.concat.css and incorporate some CSS custom properties
-Point out how theming the buttons might work
+As you do this, I'd recommend you look at [AgnosticUI's button's states](https://github.com/AgnosticUI/agnosticui/blob/master/agnostic-css/src/components/button/button.css#L49), [Bootstrap's button's states](https://github.com/twbs/bootstrap/blob/main/scss/_buttons.scss#L22), and whatever other UI open source libraries you happen to like. I believe you'll find some overlap and code diving is a great way to learn and improve. If you see a line of code that's completely mysterious to you, simply google for an article on that style rule.
+
+### Variants
+
+Most button libraries support many &ldquo;button variants&rdquo; (e.g. sizes, shapes, color modes, etc.), but this article is already quite long. So, I'd invite you to have a look at [AgnosticUI's button.css](https://raw.githubusercontent.com/AgnosticUI/agnosticui/master/agnostic-css/button.css) for ideas, and also [SMACSS](http://smacss.com/) which is mostly the methodology used in AgnosticUI.
+
+### CSS Properties
+
+If you haven't started using CSS custom properites yet, I'd strongly recommend it. You can start by having a look at Agnostic's [common styles](https://github.com/AgnosticUI/agnosticui/blob/master/agnostic-css/css-dist/common.concat.css). As you see, CSS custom properties are heavily leaned on. Here are some great articles that discuss
+what custom properties are and how you might leverage them:
+- [A Complete Guide to Custom Properties](https://css-tricks.com/a-complete-guide-to-custom-properties/)
+- [A DRY Approach to Color Themes in CSS ](https://css-tricks.com/a-dry-approach-to-color-themes-in-css/)
 
 ## Conclusion
 
-Hopefully I’ve whet your appetite and you’re intrigued by the idea of creating UI component libraries and/or design systems that are not tied to a particular framework. Do you remember the venerable TodoMVC project and how many framework implementations were created for this popular JavaScript exercise? Well, maybe we can do the same for a nice UI component library—build some nice primitives that are easily themable with CSS properties so we can get our systems kicked off more quickly? That’s the vision for AgnosticUI, so if you feel compelled to get involved, the project is still very early and approachable and I’m certainly looking for contributors. Plus, if you’ve went through the above exercise, you basically now know the infrastructure being used!
-## Make that button pop!
-
-
-<p data-height="268" data-theme-id="0" data-slug-hash="raBZvv" data-default-tab="result" data-user="roblevin" class='codepen'>See the Pen <a href='http://codepen.io/roblevin/pen/raBZvv/'>Inline SVG Fill and Stroke </a> by Rob Levin (<a href='http://codepen.io/roblevin'>@roblevin</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-
-
+Hopefully I’ve whet your appetite and you’re intrigued by the idea of creating UI component libraries and/or design systems that are not tied to a particular framework. Have you seen the venerable [TodoMVC](https://todomvc.com) project and how many framework implementations have been created for this popular JavaScript exercise? Wouldn't it be nice to have a UI component library of primitives available for many frameworks too? To not need a good year to build our custom design systems? That’s the vision of [AgnosticUI](https://github.com/AgnosticUI/agnosticui), so if you feel compelled to get involved, the project is still very early and approachable and I’m certainly looking for contributors. Plus, if you’ve went through the above tutorial, you basically now know exactly how it works!

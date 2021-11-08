@@ -1,10 +1,10 @@
 {
-  "name": "svelte-app",
+  "name": "littlebutton-svelte",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "yarn syncStyles && rollup -c -w",
     "syncStyles": "node copystyles.js",
     "start": "sirv public --no-clear"
   },

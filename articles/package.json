@@ -11,6 +11,9 @@
     "@vue/cli-plugin-eslint": "~4.5.0"
   },
   "scripts": {
-    "start:react": "yarn workspace littlebutton-react start"
+    "start:react": "yarn workspace littlebutton-react start",
+    "start:vue": "yarn workspace littlebutton-vue start",
+    "start:svelte": "yarn workspace littlebutton-svelte dev",
+    "start:angular": "yarn workspace littlebutton-angular start"
   }
 }
