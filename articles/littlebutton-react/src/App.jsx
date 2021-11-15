@@ -1,14 +1,16 @@
 import "./App.css";
 import styles from "./button.module.css";
 
-const Button = () => {
-  return <button className={styles.btn}>Go</button>;
+const Button = ({ mode }) => {
+  const primaryClass = mode ? styles[`btn${mode.charAt(0).toUpperCase()}${mode.slice(1)}`] : '';
+  const classes = primaryClass ? `${styles.btn} ${primaryClass}` : styles.btn;
+  return <button className={classes}>Go</button>;
 };
 
 function App() {
   return (
     <div className="App">
-      <Button />
+      <Button mode="primary" />
     </div>
   );
 }

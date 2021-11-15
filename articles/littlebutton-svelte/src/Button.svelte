@@ -5,6 +5,8 @@
 </script>
 <style>
 .btn {
+  --button-primary: #14775d;
+  --button-primary-color: #fff;
   --button-dark: #333;
   --button-line-height: 1.25rem;
   --button-font-size: 1rem;
@@ -46,6 +48,12 @@
   text-decoration: none;
   text-align: center;
   outline: none;
+}
+
+.btn-primary {
+  background-color: var(--button-primary);
+  border-color: var(--button-primary);
+  color: var(--button-primary-color);
 }
 
 @media (prefers-reduced-motion) {

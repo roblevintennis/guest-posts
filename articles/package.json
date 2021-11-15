@@ -11,6 +11,10 @@
     "start:react": "yarn workspace littlebutton-react dev",
     "start:vue": "yarn workspace littlebutton-vue dev",
     "start:svelte": "yarn workspace littlebutton-svelte dev",
-    "start:angular": "yarn workspace littlebutton-angular start"
+    "start:angular": "yarn workspace littlebutton-angular start",
+    "sync:react": "yarn workspace littlebutton-react syncStyles",
+    "sync:vue": "yarn workspace littlebutton-vue syncStyles",
+    "sync:svelte": "yarn workspace littlebutton-svelte syncStyles",
+    "sync:angular": "yarn workspace littlebutton-angular syncStyles"
   }
 }

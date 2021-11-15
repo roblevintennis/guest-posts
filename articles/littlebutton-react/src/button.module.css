@@ -1,3 +1,7 @@
 .btn {
   composes: btn from './button.css';
 }
+
+.btnPrimary {
+  composes: btn-primary from './button.css';
+}

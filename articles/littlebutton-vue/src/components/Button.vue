@@ -5,10 +5,25 @@
 <script>
 export default {
   name: 'Button',
+  props: {
+    mode: {
+      type: String,
+      required: false,
+      default: '',
+      validator: (value) => {
+        const isValid = ['primary'].includes(value);
+        if (!isValid) {
+          console.warn(`Allowed types for Button are primary`);
+        }
+        return isValid;
+      },
+    }
+  },
   computed: {
     classes() {
       return {
         [this.$style.btn]: true,
+        [this.$style['btn-primary']]: this.mode === 'primary',
       }
     }
   }
@@ -17,6 +32,8 @@ export default {
 
 <style module>
 .btn {
+  --button-primary: #14775d;
+  --button-primary-color: #fff;
   --button-dark: #333;
   --button-line-height: 1.25rem;
   --button-font-size: 1rem;
@@ -58,6 +75,12 @@ export default {
   text-decoration: none;
   text-align: center;
   outline: none;
+}
+
+.btn-primary {
+  background-color: var(--button-primary);
+  border-color: var(--button-primary);
+  color: var(--button-primary-color);
 }
 
 @media (prefers-reduced-motion) {
