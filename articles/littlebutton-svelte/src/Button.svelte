@@ -1,7 +1,12 @@
-<button class="btn">
+<button class="{classes}">
   <slot></slot>
 </button>
 <script>
+  export let mode = "";
+  const classes = [
+    "btn",
+    mode ? `btn-${mode}` : "",
+  ].filter(cls => cls.length).join(" ");
 </script>
 <style>
 .btn {

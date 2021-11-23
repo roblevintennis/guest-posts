@@ -2,5 +2,5 @@
 	import Button from './Button.svelte';
 </script>
 <main>
-	<Button>Go</Button>
+	<Button mode="primary">Go</Button>
 </main>
