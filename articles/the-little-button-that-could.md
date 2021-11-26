@@ -580,7 +580,7 @@ If for some reason, for example, our button was in use and our design team decid
 
 This is compelling if you have a polyglot team of developers that enjoy working in multiple frameworks, or, say an offshore team (that's 3x productive in Angular) that's being tasked to build a back-office application, but your flagship product was built in React. Or, you're building an interim Admin console and you'd love to experiment with using Vue or Svelte. You get the picture.
 
-Update Monorepo
+Update monorepo
 
 Let's move back up to our top-level monorepo directory and update its `package.json` `scripts` section with the following so we can kick any framework implementation without `cd`'ing:
 
@@ -594,7 +594,7 @@ Let's move back up to our top-level monorepo directory and update its `package.j
           },
 
 
-Button Styles
+Button styles
 
 Let's update our button's base styles with something acceptable for a neutral default button. 
 Update `littlebutton-css/css/button.css` with:
@@ -695,7 +695,12 @@ If you run these apps nothing will change because we haven't applied the primary
 
 React
 
-For React, if you haven't already, double-check that the updated CSS got copied over into `littlebutton-css/css/button.css`. If so, we'll also need to add a composed class in `littlebutton-react/css/button.module.css` which points to the new `btn-primary`:
+For React, if you haven't already, double-check that the updated CSS got copied over into `littlebutton-react/src/button.css`. If not, you can run `yarn syncStyles`.
+
+Note that if you forget to run `yarn syncStyles` our `dev` script will do this for us when we next start the application anyway:
+    `"dev": "yarn syncStyles && vite",`
+    
+For our React implementation, we additionally will need to add a composed CSS Modules class in `littlebutton-react/css/button.module.css` which composed from the new `btn-primary`:
 
 
     .btnPrimary {
@@ -730,7 +735,12 @@ I'm keeping the Button component in `App.jsx` for brevity, but feel free to teas
 
 Vue
 
-Again, double-check your button styles got copied over to the Vue component. If so, you'll make the following changes to the script section of `littlebutton-vue/src/components/Button.vue`:
+Again, double-check your button styles got copied over to the Vue component’s  `littlebutton-vue/src/components/Button.vue`. If not, you can run `yarn syncStyles`.
+
+Note that if you forget to run `yarn syncStyles` our `dev` script will do this for us when we next start the application anyway:
+    `"dev": "yarn syncStyles && vite",`
+    
+If so, you'll make the following changes to the script section of `littlebutton-vue/src/components/Button.vue`:
 
 
     <script>
@@ -770,7 +780,10 @@ Fire up the Vue app with `yarn start:vue` from the top-level directory. If all w
 
 Svelte
 
-Let’s change directory into `littlebutton-svelte` and verify you’re styles in the `guest-posts/articles/littlebutton-svelte/src/Button.svelte` have the new `btn-primary` class copied over else run `yarn syncStyles`.
+Let’s change directory into `littlebutton-svelte` and verify you’re styles in `littlebutton-svelte/src/Button.svelte` have the new `btn-primary` class copied over else run `yarn syncStyles`. If not, you can run `yarn syncStyles`.
+
+Note that if you forget to run `yarn syncStyles` our `dev` script will do this for us when we next start the application anyway:
+   `"dev": "yarn syncStyles && rollup -c -w",`
 
 Now we just need to update some Svelte JavaScript to apply the class when `mode` is passed in as `primary`—update `src/App.svelte` to:
 
@@ -784,6 +797,7 @@ Now we just need to update some Svelte JavaScript to apply the class when `mode`
 
 And update the top of your `src/Button.svelte` to:
 
+
     <button class="{classes}">
       <slot></slot>
     </button>
@@ -796,17 +810,64 @@ And update the top of your `src/Button.svelte` to:
     </script>
     ...the styles 
 
-The styles `<styles>` section shouldn’t be touched. Now fire up your app with `yarn dev` from `littlebutton-svelte` (or `yarn start:svelte` from a directory higher in your monorepo root).
+Note that the `<styles>` section of our Svelte component shouldn’t be touched. Now, fire up your app with `yarn dev` from `littlebutton-svelte` (or `yarn start:svelte` from a directory higher in your monorepo root).
 
 Angular
 
-Will be added after first round of feedback ;-)
+If you haven't already, double-check that the updated CSS got copied over into `littlebutton-angular/src/components/button.css`. If not, you can run `yarn syncStyles`.
+
+Note that if you forget to run `yarn syncStyles` our `dev` script will do this for us when we next start the application anyway:
+   `"start": "yarn syncStyles && ng serve",`
+
+In `littlebutton-angular/src/app/app.component.html` we’ll just add the `mode=``"``primary``"` prop:
+
+    <main>
+      <little-button mode="primary">Go</little-button>
+    </main>
+
+In `littlebutton-angular/src/components/button.component.html` we now need to set up a binding to classes that we will `compute` within the component. Below, note the binding is happening with the square brackets:
+
+
+    <button [class]="classes">Go</button>
+
+With the above change to our template, we need to actually create the `classes` binding in our component at `littlebutton-angular/src/components/button.component.ts`:
+
+
+    import { Component, Input } from '@angular/core';
+    
+    @Component({
+      selector: 'little-button',
+      templateUrl: './button.component.html',
+      styleUrls: ['./button.component.css'],
+    })
+    export class ButtonComponent {
+      @Input() mode: 'primary' | undefined = undefined;
+    
+      public get classes(): string {
+        const modeClass = this.mode ? `btn-${this.mode}` : '';
+        return [
+          'btn',
+          modeClass,
+        ].filter(cl => cl.length).join(' ');
+      }
+    }
+
+We use the `Input` directive to take in the `mode` prop, and then we create a `classes` accessor which will add our mode class if it’s been passed in.
+ 
+If you now fire up the app with `yarn start` in the `littlebutton-angular/` directory you should see our updated primary button render.
+
+
+Code complete
+
+If you’ve made it this far, congratulations — you’ve reached code complete! If something went awry, I’d encourage you to cross-reference the GitHub source code: https://github.com/roblevintennis/guest-posts/tree/the-little-button-that-could-series on the `the-little-button-that-could-series` branch. As bundlers and packages have a tendency to change abruptly, you might want to pin your package versions to the ones from the above mentioned branch if you experience any dependency headaches.
+
+Take a moment to go back and compare and contrast the 4 framework-based button component implementations you’ve just built. They’re still small enough to quickly notice some interesting differences in how props are passed, how they bind those props, how they prevent CSS name collisions, and other interesting divergent approaches. As I continue to add components to AgnosticUI (which by-the-way supports these exact same four frameworks) I’m continually pondering which offers the best developer experience. What do you think?
 
 Homework
 
 If you're the type that likes to figure things out on your own or enjoys assignments, here are a couple of ideas:
 
-Button States
+Button states
 
 The above button styles are not accounting for various states a button can be in. I believe that's a good first exercise for you to attempt. Start with this:
 
@@ -828,7 +889,7 @@ Variants
 
 Most button libraries support many “button variants”. For example, sizes, shapes, color modes (we've added the mode `primary` for example; `secondary`, `action`, `warning`, `error`, `success` might be other plausible modes). Some CSS methodogies that may be helpful are: SMACSS which is mostly the methodology used in AgnosticUI, BEM, OOCSS, SuitCSS, and Atomic CSS. I'd also invite you to have a look at AgnosticUI's button.css for more ideas.
 
-CSS Properties
+CSS custom properties
 
 If you haven't started using CSS custom properties yet, I'd strongly recommend it. You can start by having a look at Agnostic's common styles. As you see, CSS custom properties are heavily leaned on. Here are some great articles that discuss
 what custom properties are and how you might leverage them:
@@ -840,6 +901,17 @@ Types—no…not typings, but the `type` attribute
 
 Did you know buttons have a `type` attribute? Did you also know that if you can totally remove the “button look” with CSS and use `type=``"``button``"` for things that look like links but behave as buttons? That you can forever stop making anchor tags with `href=``"``#``"` thus angering the accessibility gods? Just kidding (kind of!). But seriously, it’s very useful to know that buttons aren’t only for form submissions—the valid types are: `button`, `submit`, and `reset`. This is pretty easy to add to your component and will greatly improve your button’s API.
 
+More ideas
+
+Gosh, you could do so much—add linting, convert it to Typescript, audit the accessibility, etc.
+
+For example, our current Svelte implementation is suffering from some pretty loose assumptions as we have no defense if the `mode` passed in isn’t the valid `primary`—our `btn-${mode}` below bit; it would produce a garbage CSS class:
+
+
+        mode ? `btn-${mode}` : "",
+
+You could say “well, `btn-garbage` as a class isn’t exactly harmful”. But it’s probably a good idea to have intentional code when and where possible and this would be a motive to add types to the project.
+
 Pitfalls
 
 There are some pitfalls you should be aware of if you want to take this approach further:
@@ -847,11 +919,10 @@ There are some pitfalls you should be aware of if you want to take this approach
 
 - Positional CSS based on tag names and structure will not work well for the CSS Modules based techniques used here
 - Angular makes positional techniques even harder as it generates a host element representing each component view. This means you have these extra elements in between in your template or markup structure. So you'll need to work around this.
-- Copying styles across workspace packages is a bit of an anti-pattern. I justify this with the benefits outweigh the costs; and also, when I think about how monorepos are using symlinks, and “not-so-failproof” hoisting, and all the other magics of the coding world I don't feel so bad here.
+- Copying styles across workspace packages is a bit of an anti-pattern to some folks. I justify this with the benefits outweigh the costs; and also, when I think about how monorepos are using symlinks, and “not-so-failproof” hoisting, and all the other magics of the coding world I don't feel so bad here.
 - Of course you’ll have to subscribe to the decoupled techniques used here so no CSS-in-JS
 
 I believe that all approaches to software development have their pros and cons and you have to weigh costs vs. benefits and ultimately use your own discretion to decide if this approach to sharing a single CSS file across frameworks works for you. There are certainly other ways you could do this (e.g. you could use `littlebuttons-css` as an npm package dependency and go that route as well)
-
 
 Conclusion
 
