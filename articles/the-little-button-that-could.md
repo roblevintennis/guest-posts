@@ -6,7 +6,7 @@ The following is a guest post by Rob Levin. Rob is a Senior UI Engineer at Ciphe
 
 Your mission — should you decide to accept it — is to build a Button component in four frameworks, but, only use one `button.css` file! 
 
-This idea is very important to me. I’ve been working on a component library called AgnosticUI where the purpose is building UI components that aren’t tied to any one particular JavaScript framework. AgnosticUI works in React, Vue, Angular, and Svelte. So that’s exactly what we’ll do today in this article: build a component that works across all these frameworks.
+This idea is very important to me. I’ve been working on a component library called AgnosticUI where the purpose is building UI components that aren’t tied to any one particular JavaScript framework. AgnosticUI works in React, Vue 3, Angular, and Svelte. So that’s exactly what we’ll do today in this article: build a component that works across all these frameworks.
 
 /more
 
@@ -87,10 +87,10 @@ Now add these two lines to your monorepo’s top-level `package.json` so we keep
       "private": true,
       "workspaces": ["littlebutton-react", "littlebutton-vue", "littlebutton-svelte", "littlebutton-angular", "littlebutton-css"]
 
-Now descend into the `littlebutton-css` directory. We'll want to generate a `package.json` with `yarn init`. Since we've named our directory `littlebutton-css` (the same as how we specified it in our `workspaces` in `package.json`) we can just hit the return key and accept all the prompts:
+Now descend into the `littlebutton-css` directory. We'll again want to generate a `package.json` with `yarn init`. Since we've named our directory `littlebutton-css` (the same as how we specified it in our `workspaces` in `package.json`) we can just hit the return key and accept all the prompts:
 
 
-    $ pushd ./littlebutton-css && yarn init && popd
+    $ cd ./littlebutton-css && yarn init
     yarn init v1.22.15
     question name (littlebutton-css): 
     question version (1.0.0): 
@@ -109,7 +109,7 @@ At this point your directory structure should look like:
     │   └── package.json
     └── package.json
 
-So we've only created the CSS package at this point as we'll be generating our framework implementations with tools like `vite` which will generate a `package.json` and project directory for you. We will have to remember that the name we choose for these generated projects must match the name we’ve specified in the `package.json` for our `workspaces` earlier to work.
+So we've only created the CSS package workspace at this point as we'll be generating our framework implementations with tools like `vite` which will generate a `package.json` and project directory for you. We will have to remember that the name we choose for these generated projects must match the name we’ve specified in the `package.json` for our `workspaces` earlier to work.
 
 HTML & CSS
 
@@ -121,7 +121,7 @@ Let's stay in the `./littlebutton-css` workspace and create our simple button co
     ├── index.html
     └── package.json
 
-And let's just “connect the dots” with some boilerplate:
+And let's just “connect the dots” with some boilerplate in `./index.html`:
 
 
     <!doctype html>
@@ -143,7 +143,7 @@ And let's just “connect the dots” with some boilerplate:
     </body>
     </html>
 
-And in `./css/styles.css`:
+And in `./css/button.css`:
 
 
     .btn {
@@ -156,7 +156,7 @@ React
 
 We're going to generate our React project using vite—a very lightweight and blazingly fast builder. Be forewarned that if you attempt to do this with `create-react-app`, there's a very good chance you will run into conflicts later with `react-scripts` and conflicting webpack or babel setups from other frameworks like Angular.
 
-Let’s install our React workspace next:
+Let’s install our React workspace next. `cd` back up to your top-level directory and then we’ll use `vite` to initialize a new project which we’ll name `littlebutton-react` and of course we’ll select `react` as the framework and variant at the prompts:
 
 
     $ yarn create vite
@@ -183,9 +183,9 @@ Let’s install our React workspace next:
     
     ✨  Done in 17.90s.
 
-Now follow the directions from above on the command-line and confirm you see the generated React app.
+Now follow the directions from above on the command-line (`cd littlebutton-react; yarn; yarn dev`), and confirm you see the generated React app.
 
-With React installed and verified let's update that `src/App.jsx` to house our button with:
+With React installed and verified let's replace the contents of `src/App.jsx` to house our button with:
 
 
     import "./App.css";
@@ -285,7 +285,7 @@ Before we move on to the next framework, let's move back up to our top-level mon
 
 Now in your terminal run `yarn` from top-level directory to get the monorepo hoisted dependencies installed.
 
-All that we've added here is a `scripts` section. By adding `start:react` we can now run `yarn start:react` from our top-level directory and it will fire up the project we just built in `./littlebutton-react` without the need for `cd`'ing — super convenient!
+The only change we’ve made to this `package.json` is that we’ve added a `scripts` section with a single script to start the React app. By adding `start:react` we can now run `yarn start:react` from our top-level directory and it will fire up the project we just built in `./littlebutton-react` without the need for `cd`'ing — super convenient!
 
 
     We'll tackle Vue and Svelte next. It turns out that we can take a pretty similar approach for both of these as they use Single File Components aka [SFC]. Basically, you get to mix HTML, CSS, and JavaScript all into one single file. Whether you like SFC or not, it's certainly adequate enough for building out presentational or primitive UI components.
@@ -293,7 +293,7 @@ All that we've added here is a `scripts` section. By adding `start:react` we can
 
 Vue
 
-Following the vite scaffolding docs we'll do the following from the monorepo top-level directory:
+Following the steps from the vite scaffolding docs we'll do the following from the monorepo top-level directory to initialize a vue app:
 
 
     yarn create vite littlebutton-vue --template vue
@@ -422,7 +422,7 @@ Also, in `littlebutton-svelte/src/main.js` you'll want to remove the `name` prop
     
     export default app;
 
-And finally, add `littlebutton-svelte/src/Button.svelte`:
+And finally, add `littlebutton-svelte/src/Button.svelte` with the following:
 
 
     <button class="btn">
@@ -452,7 +452,7 @@ Add the following little NodeJS script to `littlebutton-svelte/copystyles.js`:
     let withSynchronizedStyles = svelte.replace(styleRegex, `<style>\n${css}\n</style>`);
     fs.writeFileSync("./src/Button.svelte", withSynchronizedStyles, "utf8");
 
-It's really quite similar to the copy script we used with Vue, isn't it? We'll just add the same `package.json` script:
+It's really quite similar to the copy script we used with Vue, isn't it? We'll just add similar scripts to our `package.json` script:
 
 
         "dev": "yarn syncStyles && rollup -c -w",
@@ -478,7 +478,7 @@ Once again, from the monorepo's top-level directory, install Angular (if needed)
     
     cd littlebutton-angular && ng serve --open
 
-With Angular setup confirmed, let's update some files. Delete the `src/app.component.spec.ts` file, and add a button component in `src/components/button.component.ts`:
+With Angular setup confirmed, let's update some files. `cd littlebutton-angular` and then delete the `src/app/app.component.spec.ts` file, and add a button component in `src/components/button.component.ts`:
 
 
     import { Component } from '@angular/core';
@@ -587,7 +587,7 @@ Let's move back up to our top-level monorepo directory and update its `package.j
 
           ...
           "scripts": {
-            "start:react": "yarn workspace littlebutton-react start",
+            "start:react": "yarn workspace littlebutton-react dev",
             "start:vue": "yarn workspace littlebutton-vue dev ",
             "start:svelte": "yarn workspace littlebutton-svelte dev",
             "start:angular": "yarn workspace littlebutton-angular start"
@@ -651,7 +651,7 @@ Update `littlebutton-css/css/button.css` with:
       }
     }
 
-Now fire up each of the 4 framework implementations to confirm the changes worked. One CSS file update proliferated to four frameworks—pretty cool, eh!?
+Now fire up each of the 4 framework implementations to confirm the changes worked (you should see a neutral gray button at this point). One CSS file update proliferated to four frameworks—pretty cool, eh!?
 
 Primary mode
 
@@ -686,6 +686,8 @@ Now that we've added our new mode `primary` represented by the `btn-primary` cla
         "sync:svelte": "yarn workspace littlebutton-svelte syncStyles",
         "sync:angular": "yarn workspace littlebutton-angular syncStyles"
 
+Depending on where you place the above scripts within your `scripts: {…}` stanza, be sure you don’t have any missing commas and follow the rules for JSON.
+
 Now go ahead and run the following to fully synchronize the styles:
 
 
@@ -700,7 +702,7 @@ For React, if you haven't already, double-check that the updated CSS got copied 
 Note that if you forget to run `yarn syncStyles` our `dev` script will do this for us when we next start the application anyway:
     `"dev": "yarn syncStyles && vite",`
     
-For our React implementation, we additionally will need to add a composed CSS Modules class in `littlebutton-react/css/button.module.css` which composed from the new `btn-primary`:
+For our React implementation, we additionally will need to add a composed CSS Modules class in `littlebutton-react/src/button.module.css` which composed from the new `btn-primary`:
 
 
     .btnPrimary {
@@ -740,7 +742,7 @@ Again, double-check your button styles got copied over to the Vue component’s 
 Note that if you forget to run `yarn syncStyles` our `dev` script will do this for us when we next start the application anyway:
     `"dev": "yarn syncStyles && vite",`
     
-If so, you'll make the following changes to the script section of `littlebutton-vue/src/components/Button.vue`:
+Now make the following changes to the`<script>…</script>` section of `littlebutton-vue/src/components/Button.vue`:
 
 
     <script>
@@ -808,7 +810,6 @@ And update the top of your `src/Button.svelte` to:
         mode ? `btn-${mode}` : "",
       ].filter(cls => cls.length).join(" ");
     </script>
-    ...the styles 
 
 Note that the `<styles>` section of our Svelte component shouldn’t be touched. Now, fire up your app with `yarn dev` from `littlebutton-svelte` (or `yarn start:svelte` from a directory higher in your monorepo root).
 
@@ -854,14 +855,14 @@ With the above change to our template, we need to actually create the `classes` 
 
 We use the `Input` directive to take in the `mode` prop, and then we create a `classes` accessor which will add our mode class if it’s been passed in.
  
-If you now fire up the app with `yarn start` in the `littlebutton-angular/` directory you should see our updated primary button render.
+If you now fire up the app with `yarn start` in the `littlebutton-angular/` directory (or `yarn start:angular` from the top-level directory) you should see our updated primary button render.
 
 
 Code complete
 
 If you’ve made it this far, congratulations — you’ve reached code complete! If something went awry, I’d encourage you to cross-reference the GitHub source code: https://github.com/roblevintennis/guest-posts/tree/the-little-button-that-could-series on the `the-little-button-that-could-series` branch. As bundlers and packages have a tendency to change abruptly, you might want to pin your package versions to the ones from the above mentioned branch if you experience any dependency headaches.
 
-Take a moment to go back and compare and contrast the 4 framework-based button component implementations you’ve just built. They’re still small enough to quickly notice some interesting differences in how props are passed, how they bind those props, how they prevent CSS name collisions, and other interesting divergent approaches. As I continue to add components to AgnosticUI (which by-the-way supports these exact same four frameworks) I’m continually pondering which offers the best developer experience. What do you think?
+Take a moment to go back and compare and contrast the 4 framework-based button component implementations you’ve just built. They’re still small enough to quickly notice some interesting differences in how props are passed, how they bind to props, how they prevent CSS name collisions, and other interesting contrasting yet similar approaches. As I continue to add components to AgnosticUI (which by-the-way supports these exact same four frameworks) I’m continually pondering which offers the best developer experience. What do you think?
 
 Homework
 
@@ -922,13 +923,14 @@ There are some pitfalls you should be aware of if you want to take this approach
 - Copying styles across workspace packages is a bit of an anti-pattern to some folks. I justify this with the benefits outweigh the costs; and also, when I think about how monorepos are using symlinks, and “not-so-failproof” hoisting, and all the other magics of the coding world I don't feel so bad here.
 - Of course you’ll have to subscribe to the decoupled techniques used here so no CSS-in-JS
 
-I believe that all approaches to software development have their pros and cons and you have to weigh costs vs. benefits and ultimately use your own discretion to decide if this approach to sharing a single CSS file across frameworks works for you. There are certainly other ways you could do this (e.g. you could use `littlebuttons-css` as an npm package dependency and go that route as well)
+I believe that all approaches to software development have their pros and cons and you have to weigh costs vs. benefits and ultimately use your own discretion to decide if this approach to sharing a single CSS file across frameworks works for you. There are certainly other ways you could do this (e.g. you could use `littlebuttons-css` as an npm package dependency and go that route)
 
 Conclusion
 
 Hopefully I’ve whet your appetite and you’re intrigued by the idea of creating UI component libraries and/or design systems that are not tied to a particular framework. Maybe you have a better idea on how to achieve this — I'd love to hear your thoughts in the comments if so.
-I'm sure you've seen the venerable TodoMVC project and how many framework implementations have been created for it. Similarly, wouldn't it be nice to have a UI component library of primitives available for many frameworks? Taking a good year to build a custom design system is quickly falling out of favor and company's are seriously questioning design system's ROI.
 
-The vision of AgnosticUI is to have a framework agnostic way to build design systems quickly that are not tied down to a particular framework. If you happen to feel compelled to get involved, the project is still very early and approachable and I’d certainly love some help. Plus, if you’ve went through the above tutorial, you basically now know exactly how AgnosticUI works!
+I'm sure you've seen the venerable TodoMVC project and how many framework implementations have been created for it. Similarly, wouldn't it be nice to have a UI component library of primitives available for many frameworks? Open UI is making great strides to properly standardize native UI component defaults, but I believe we’ll always need to insert ourselves to some extent. Certainly, taking a good year to build a custom design system is quickly falling out of favor and company's are seriously questioning design system's ROI. Some sort of scaffolding is required to make the endeavor practical.
+
+The vision of AgnosticUI is to have a framework agnostic way to build design systems quickly that are not tied down to a particular frontend framework. If you happen to feel compelled to get involved, the project is still very early and approachable. I’d certainly love some help! Plus, if you’ve went through the above tutorial, you basically now know exactly how AgnosticUI works!
 
 The source code for this article is at https://github.com/roblevintennis/guest-posts/tree/the-little-button-that-could-series on the `the-little-button-that-could-series` branch. You can `git clone git@github.com:roblevintennis/guest-posts.git` and switch to that branch if you'd prefer to move faster or reference working code.
