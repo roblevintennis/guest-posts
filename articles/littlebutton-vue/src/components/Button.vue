@@ -64,7 +64,7 @@ export default {
   border-color: var(--button-light);
   border-style: solid;
   border-width: 1px;
-  font-family: var(--button-font-size);
+  font-family: var(--button-font-stack);
   font-weight: 400;
   font-size: var(--button-font-size);
   line-height: var(--button-line-height);
